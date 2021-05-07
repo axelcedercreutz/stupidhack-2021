@@ -2,11 +2,22 @@ import uvicorn
 
 from typing import Optional
 
+import pymongo
+
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
+client = pymongo.MongoClient("localhost", 27017)
+db = client.nocccoin
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # TODO: replace with db
 users = []
