@@ -14,7 +14,7 @@ const sendMessage = async (password, userId, recieverId, message) => {
 
 const addCoins = async (userId, amount) => {
   const data = {
-    to_id: userId,
+    user_id: userId,
     amount,
   };
   const response = await axios.post(baseUrl + '/nocccoins/add', data);
