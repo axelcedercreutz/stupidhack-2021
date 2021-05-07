@@ -1,9 +1,0 @@
-POST http://localhost:8000/nocccoins/transfer HTTP/1.1
-content-type: application/json
-
-{
-    "from_id": "60959c712317c8c2797fabf2",
-    "password": "salasana",
-    "to_id": "60959c532317c8c2797fabf1",
-    "amount": 1
-}

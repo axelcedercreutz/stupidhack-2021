@@ -1,0 +1,7 @@
+GET http://localhost:8000/nocccoins/transfers?from_id=6095b6e5aeb80e67b4e4006c&to_id=6095b6e3aeb80e67b4e4006b HTTP/1.1
+content-type: application/json
+
+###
+
+GET http://localhost:8000/nocccoins/transfers?transfer_id=6095b891312da03f54fcfab7 HTTP/1.1
+content-type: application/json

@@ -1,4 +1,5 @@
 import base64
+from datetime import datetime
 
 from typing import Optional
 from bson.objectid import ObjectId
@@ -35,11 +36,17 @@ class User(BaseModel):
     username: str
     password: str
     nocccoins: int = 0
+    flavours: list = []
 
 
 # Helpers
 def _set_nocccoins(user_id: str, amount: int):
     res = db.users.update_one({ '_id': ObjectId(user_id) }, { "$set": { "nocccoins": amount } })
+    return res
+
+
+def _set_flavours(user_id: str, flavours: list):
+    res = db.users.update_one({ '_id': ObjectId(user_id) }, { "$set": { "flavours": list(set(flavours)) } })
     return res
 
 
@@ -83,8 +90,22 @@ def get_user(user_id: str):
     return {**u, '_id': str(u['_id'])}
 
 
-@app.post("/nocccoins/transfer")
-def transfer_nocccoins(from_id: str = Body(...), password: str = Body(...), to_id: str = Body(...), amount: int = Body(...)):
+@app.get("/nocccoins/transfers")
+def get_transfers(from_id: str = '', to_id: str = '', transfer_id: str = ''):
+    if transfer_id:
+        transfer = db.transfers.find_one({ '_id': ObjectId(transfer_id) })
+        return {**transfer, '_id': str(transfer['_id'])}
+    query = {}
+    if from_id:
+        query['from_id'] = from_id
+    if to_id:
+        query['to_id'] = to_id
+    transfers = db.transfers.find(query)
+    return [{ **u, '_id': str(u['_id']) } for u in list(transfers)]
+
+
+@app.post("/nocccoins/transfers")
+def transfer_nocccoins(from_id: str = Body(...), password: str = Body(...), to_id: str = Body(...), amount: int = Body(...), message: str = Body('')):
     from_u = db.users.find_one({ '_id': ObjectId(from_id) })
     if not from_u['password'] == password:
         raise HTTPException(status_code=401, detail="No permission")
@@ -93,7 +114,9 @@ def transfer_nocccoins(from_id: str = Body(...), password: str = Body(...), to_i
     to_u = db.users.find_one({ '_id': ObjectId(to_id) })
     _set_nocccoins(from_id, from_u['nocccoins'] - amount)
     _set_nocccoins(to_id, to_u['nocccoins'] + amount)
-    return get_user(from_id)
+    t = db.transfers.insert_one({ 'from_id': from_id, 'to_id': to_id, 'message': message, 'timestamp': datetime.utcnow() })
+    transfer = db.transfers.find_one({ '_id': t.inserted_id })
+    return {**transfer, '_id': str(transfer['_id'])}
 
 
 @app.post("/nocccoins/add")
@@ -129,10 +152,12 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
     if not validate_image(image_file):
         raise HTTPException(status_code=401, detail="Invalid chain")
 
-    flavors = [1] # TODO: replace with Leila's code
-    if len(flavors) == 0:
+    flavours = ['mango'] # TODO: replace with Leila's code
+    if len(flavours) == 0:
         raise HTTPException(status_code=404, detail="Nocco not found")
-    add_nocccoins(user_id)
+    user = db.users.find_one({ '_id': ObjectId(user_id) })
+    _set_nocccoins(user_id, user['nocccoins'] + len(flavours))
+    _set_flavours(user_id, user['flavours'] + flavours)
     noccchain_id = db.noccchain.count() + 1
     mined = db.noccchain.insert_one({ 'noccchain_id': noccchain_id, 'user_id': user_id })
     with open(f"noccchain/{noccchain_id}.png", "wb") as fh:
