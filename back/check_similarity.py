@@ -34,11 +34,13 @@ def check_similarity(source):
     source = cv2.cvtColor(source, cv2.COLOR_BGR2GRAY)
     reference = cv2.cvtColor(reference, cv2.COLOR_BGR2GRAY)
 
+    """
     # calculate histograms
     source_histogram = cv2.calcHist([source], [0], None, [256], [0, 256])
     reference_histogram = cv2.calcHist([reference], [0], None, [256], [0, 256])
 
     hist_match = cv2.compareHist(source_histogram, reference_histogram, 1)
+    print(f"Histogram comparison: {hist_match}, PASS: {hist_match < EDISTANCE_THRESH}")
 
     # Euclidean distance
     match = 0
@@ -48,6 +50,7 @@ def check_similarity(source):
         i += 1
     match = match[0] ** (1 / 2)
     print(f"Euclidean distance: {match}, PASS: {match < EDISTANCE_THRESH}")
+    """
 
     # image mean_error
     mean_error = mean_squared_error(source, reference)
