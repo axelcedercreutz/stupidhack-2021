@@ -13,7 +13,7 @@ def validate_image(source):
     print("Image", i)
     i += 1
     if check_similarity(contour):
-      # cv2.imwrite('latest_match.png', contour)
+      cv2.imwrite('latest_match.png', contour)
       bordered_image = draw_borders(original)
       cv2.imwrite('reference.png', bordered_image)
 
@@ -22,6 +22,3 @@ def validate_image(source):
 
   print("Invalid chain!")
   return False
-
-test = cv2.imread("test/test3.jpg")
-validate_image(test)

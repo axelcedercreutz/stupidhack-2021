@@ -144,14 +144,14 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
     # Userille flavour (set)
     # Noccchain --> id, user_id
     try:
-        nparr = np.fromstring(image, np.uint8)
-        img_np = cv2.imdecode(nparr, cv2.CV_LOAD_IMAGE_COLOR)
-        image_file = cv2.imread()
+        im_bytes = base64.b64decode(image)
+        im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
+        image_file = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
     except:
-        raise HTTPException(status_code=401, detail="Invalid image")
+        raise HTTPException(status_code=400, detail="Invalid image")
 
     if not validate_image(image_file):
-        raise HTTPException(status_code=401, detail="Invalid chain")
+        raise HTTPException(status_code=400, detail="Invalid chain")
 
     flavours = ['mango'] # TODO: replace with Leila's code
     if len(flavours) == 0:

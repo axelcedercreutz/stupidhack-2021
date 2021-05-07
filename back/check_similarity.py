@@ -18,6 +18,14 @@ def check_similarity(source):
     reference = cv2.imread("reference.png")
     reference_h, reference_w, _ = reference.shape
 
+    source_ar = source_w / source_h
+    reference_ar = reference_w / reference_h
+    is_size_within_bounds = abs(source_ar - reference_ar) < 1
+
+    if not is_size_within_bounds:
+        print("Invalid aspect ratio")
+        return False
+
     # resize image to same size
     dsize = (source_w, source_h)
     reference = cv2.resize(reference, dsize)
@@ -47,8 +55,6 @@ def check_similarity(source):
 
     similarity_index = ssim(source, reference)
     print(f"Similarity index: {similarity_index}, PASS: {similarity_index > SSIM_THRESH}")
-
-    
 
     is_similar = similarity_index > SSIM_THRESH and mean_error < ERROR_THRESH
     print(f"Is similar enough: {is_similar}\n")
