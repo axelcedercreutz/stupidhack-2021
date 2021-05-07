@@ -35,9 +35,6 @@ const App = () => {
   const friend = match
     ? friends.find(friend => friend._id === match.params.id)
     : undefined;
-  console.log(match);
-  console.log(friends);
-  console.log(friend);
 
   const noccos = [
     {
@@ -76,6 +73,7 @@ const App = () => {
     if (userId) {
       const newUserInfo = await userService.getBasicInfo();
       setUserInfo(newUserInfo);
+      window.localStorage.setItem('nocccoinUser', JSON.stringify(newUserInfo));
       const allUsers = await userService.getAllUsers();
       setFriends(allUsers);
     }
@@ -87,10 +85,6 @@ const App = () => {
         username,
         password,
       });
-      window.localStorage.setItem(
-        'nocccoinUser',
-        JSON.stringify({ password: password, userId: userId }),
-      );
       userService.setToken(userId);
       setUserId(userId);
     } catch (exception) {
@@ -104,16 +98,14 @@ const App = () => {
 
   const handleLogin = async () => {
     try {
-      const userId = await loginService.login({
+      const user = await loginService.login({
         username,
         password,
       });
-      window.localStorage.setItem(
-        'nocccoinUser',
-        JSON.stringify({ password: password, userId: userId._id }),
-      );
-      userService.setToken(userId._id);
-      setUserId(userId._id);
+
+      window.localStorage.setItem('nocccoinUser', JSON.stringify(user));
+      userService.setToken(user._id);
+      setUserId(user._id);
     } catch (exception) {
       setNotificationMessage('Wrong username or password');
       setNotificationType('error');

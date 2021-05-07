@@ -40,7 +40,7 @@ const transferCoins = async (password, userId, recieverId, amount) => {
     amount,
   };
   console.log(data);
-  const response = await axios.post(baseUrl + '/nocccoins/transfer', data);
+  const response = await axios.post(baseUrl + '/nocccoins/transfers', data);
   return response.data;
 };
 
