@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "/info";
+const baseUrl = "http://localhost:8000/users";
 
 let userId = null;
 
@@ -7,33 +7,45 @@ const setToken = (newUserId) => {
   userId = newUserId;
 };
 
-const getAll = () => {
-  const config = {
-    headers: { Authorization: userId },
-  };
-  const request = axios.get(baseUrl, config);
-  return request.then((response) => response.data);
-};
-
-const create = async (newObject) => {
-  const config = {
-    headers: { Authorization: userId },
-  };
-  const response = await axios.post(baseUrl, {userId}, config);
+const getBasicInfo = async () => {
+  console.log(userId);
+  const response = await axios.get(baseUrl+ `/${userId}`);
   return response.data;
 };
 
-const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject);
-  return request.then((response) => response.data);
-};
-
-const deleteBlog = (id) => {
+const getPrivateInfo = async (credentials) => {
   const config = {
-    headers: { Authorization: userId },
-  };
-  const request = axios.delete(`${baseUrl}/${id}`, config);
-  return request.then((response) => response.data);
+    headers: {
+      data: {
+        password: credentials,
+      }
+    }
+  }
+  const response = await axios.get(baseUrl + `/${userId}`, config);
+  return response.data;
 };
 
-export default { getAll, create, update, deleteBlog, setToken };
+const sendMessage = async (password, recieverId, message) => {
+  const data = {
+    password,
+    user_id: userId,
+    reciever_id: recieverId,
+    message
+  }
+  const response = await axios.post('/message', data);
+  return response.data
+}
+
+const sendCoins = async (password, recieverId, amount) => {
+  const data = {
+    password,
+    user_id: userId,
+    reciever_id: recieverId,
+    amount,
+  }
+  const response = await axios.post('/coins', data);
+  return response.data;
+}
+
+
+export default { getBasicInfo, getPrivateInfo, sendMessage, sendCoins, setToken };
