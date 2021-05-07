@@ -11,13 +11,13 @@ import {
   Button,
   makeStyles,
 } from '@material-ui/core';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link, useRouteMatch } from 'react-router-dom';
 import PhotoGallery from './components/PhotoGallery';
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
 import NewPhoto from './components/NewPhoto';
 import Mine from './components/Mine';
-import user from './services/user';
+import Friend from './components/Friend';
 
 const App = () => {
   const classes = useStyles();
@@ -28,8 +28,16 @@ const App = () => {
   const [notificationMessage, setNotificationMessage] = useState('');
   const [toggleLogin, setToggleLogin] = useState('login');
   const [userInfo, setUserInfo] = useState();
-  const [friendId, setFriendId] = useState();
   const [friends, setFriends] = useState([]);
+
+  const match = useRouteMatch('/friends/:id');
+
+  const friend = match
+    ? friends.find(friend => friend._id === match.params.id)
+    : undefined;
+  console.log(match);
+  console.log(friends);
+  console.log(friend);
 
   const noccos = [
     {
@@ -156,30 +164,8 @@ const App = () => {
       <CardContent>
         <Typography>Your friends!</Typography>
         {friends.map(friend => {
-          return (
-            <Button
-              variant={'outlined'}
-              onClick={() => setFriendId(friend._id)}
-            >
-              {friend.username}
-            </Button>
-          );
+          return <Link to={`/friends/${friend._id}`}>{friend.username}</Link>;
         })}
-        <div>
-          {friendId && (
-            <>
-              <Button
-                variant={'outlined'}
-                onClick={() => noccocoinsService.addCoins(userId, 5)}
-              >
-                Send new message
-              </Button>
-              <Button variant={'outlined'} onClick={handleTransfer}>
-                Send Nocccoins
-              </Button>
-            </>
-          )}
-        </div>
       </CardContent>
     </Card>
   );
@@ -239,6 +225,15 @@ const App = () => {
         handleLogout={() => handleLogout()}
       />
       <Switch>
+        <Route path="/friends/:id">
+          {
+            <Friend
+              friend={friend}
+              userId={userId}
+              handleTransfer={() => handleTransfer()}
+            />
+          }
+        </Route>
         <Route path="/photo-gallery">
           <PhotoGallery />
         </Route>
