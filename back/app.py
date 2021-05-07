@@ -10,6 +10,11 @@ from fastapi import FastAPI, HTTPException, Body, Request, File
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
+import cv2 
+import numpy as np
+
+from validate_image import validate_image
+
 client = pymongo.MongoClient("localhost", 27017)
 db = client.nocccoin
 
@@ -114,6 +119,16 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
     # Note: pyyntöjen jonotus / lock
     # Userille flavour (set)
     # Noccchain --> id, user_id
+    try:
+        nparr = np.fromstring(image, np.uint8)
+        img_np = cv2.imdecode(nparr, cv2.CV_LOAD_IMAGE_COLOR)
+        image_file = cv2.imread()
+    except:
+        raise HTTPException(status_code=401, detail="Invalid image")
+
+    if not validate_image(image_file):
+        raise HTTPException(status_code=401, detail="Invalid chain")
+
     flavors = [1] # TODO: replace with Leila's code
     if len(flavors) == 0:
         raise HTTPException(status_code=404, detail="Nocco not found")
