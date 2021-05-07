@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, Button } from '@material-ui/core';
 
-const NewPhoto = () => {
+const Friend = () => {
   const [takeNewPicture, setTakeNewPicture] = useState(false);
   return takeNewPicture ? (
     <>
@@ -15,4 +15,4 @@ const NewPhoto = () => {
   );
 };
 
-export default NewPhoto;
+export default Friend;
