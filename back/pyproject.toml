@@ -16,6 +16,7 @@ scikit-image = "^0.18.0"
 numpy = "^1.20.2"
 pydantic = "^1.8.1"
 pymongo = "^3.11.4"
+python-multipart = "^0.0.5"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.1"
