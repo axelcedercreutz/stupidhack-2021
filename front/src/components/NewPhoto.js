@@ -7,7 +7,7 @@ import {
   TableBody,
 } from '@material-ui/core';
 
-const Dashboard = props => {
+const NewPhoto = props => {
   return (
     <>
       <Table>
@@ -32,4 +32,4 @@ const Dashboard = props => {
   );
 };
 
-export default Dashboard;
+export default NewPhoto;

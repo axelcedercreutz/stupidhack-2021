@@ -1,2 +1,2 @@
-GET http://localhost:8000/users/1 HTTP/1.1
+GET http://localhost:8000/users/60959182a13027cdc9308ac1 HTTP/1.1
 content-type: application/json
