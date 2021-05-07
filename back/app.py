@@ -8,6 +8,7 @@ import uvicorn
 import pymongo
 
 from fastapi import FastAPI, HTTPException, Body, Request, File
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -164,6 +165,20 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
         fh.write(base64.decodebytes(image))
     
     return get_nocccoin(noccchain_id)
+
+
+@app.get("/noccchain/length")
+def get_noccchain_length():
+    return db.noccchain.count()
+
+
+@app.get("/noccchain/{nocccblock_id}")
+def get_noccchain_nocccblock(nocccblock_id: int = 0):
+    noccchain_length = db.noccchain.count()
+    print('->', noccchain_length)
+    if nocccblock_id <= 0 or nocccblock_id > noccchain_length:
+        raise HTTPException(status_code=404, detail="Nocccblock not found")
+    return FileResponse(f'noccchain/{nocccblock_id}.png')
 
 
 def main():
