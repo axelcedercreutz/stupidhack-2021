@@ -1,36 +1,36 @@
 import React, { useState, useEffect } from "react";
-import blogService from "./services/blogs";
+import userService from "./services/user";
 import loginService from "./services/login";
 import Notification from './components/Notification';
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState("");
+  const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [notificationType, setNotificationType] = useState("");
   const [notificationMessage, setNotificationMessage] = useState("");
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
+    let loggedUserJSON = window.localStorage.getItem("nocccoinUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
-      blogService.setToken(user.token);
+      userService.setToken(user.token);
     }
   }, []);
 
-  const handleLogin = async (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
     try {
-      const user = await loginService.login({
-        username,
+      const user = await loginService.createUser({
+        user_id: 2,
+        nickname,
         password,
       });
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      blogService.setToken(user.token);
+      window.localStorage.setItem("nocccoinUser", JSON.stringify(user));
+      userService.setToken(user.user_id);
       setUser(user);
-      setUsername("");
+      setNickname("");
       setPassword("");
     } catch (exception) {
       setNotificationMessage("Wrong username or password");
@@ -43,7 +43,7 @@ const App = () => {
 
   const renderUserInfo = () => (
     <div>
-      <h3>{user.name + " logged in"}</h3>
+      <h3>{user.nickname + " logged in"}</h3>
       <button
         onClick={() => {
           window.localStorage.clear();
@@ -55,16 +55,16 @@ const App = () => {
     </div>
   );
 
-  const renderLoginForm = () => (
-    <form onSubmit={handleLogin}>
+  const renderSignUpForm = () => (
+    <form onSubmit={handleSignUp}>
       <div>
-        username
+        nickname
         <input
-          id="username"
+          id="nickname"
           type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
+          value={nickname}
+          name="Nickname"
+          onChange={({ target }) => setNickname(target.value)}
         />
       </div>
       <div>
@@ -90,13 +90,13 @@ const App = () => {
   );
   return (
     <div>
-      <h1>blogs</h1>
-      <h2>{user === null ? "login" : "blogs"}</h2>
+      <h1>Nocccoin</h1>
+      <h2>{user === null ? "Sign up" : "Your Nocccoins"}</h2>
       <Notification
         message={notificationMessage}
         notificationType={notificationType}
       />
-      {user === null ? renderLoginForm() : renderLoggedInPage()}
+      {user === null ? renderSignUpForm() : renderLoggedInPage()}
     </div>
   );
 };
