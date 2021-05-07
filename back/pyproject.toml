@@ -8,13 +8,14 @@ authors = ["Your Name <you@example.com>"]
 python = "^3.9"
 fastapi = "^0.64.0"
 requests = "^2.25.1"
-pymongo = "^3.11.4"
 uvicorn = "^0.13.4"
 argparse = "^1.4.0"
 imutils = "^0.5.4"
 opencv-python = "^4.5.2"
 scikit-image = "^0.18.0"
 numpy = "^1.20.2"
+pydantic = "^1.8.1"
+pymongo = "^3.11.4"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.1"
