@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Menu = props => {
-  const { user } = props;
+  const { userInfo, handleLogout } = props;
   const padding = {
     paddingRight: 5,
   };
@@ -29,10 +29,10 @@ const Menu = props => {
       <Link style={padding} to="/mine">
         Start Mining
       </Link>
-      {user !== null && (
+      {userInfo && (
         <div style={inlineBlock}>
-          <p style={name}>{user.name + ' logged in'}</p>
-          <button style={padding} onClick={() => {}}>
+          <p style={name}>{userInfo.username + ' logged in'}</p>
+          <button style={padding} onClick={() => handleLogout()}>
             Logout
           </button>
         </div>

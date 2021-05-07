@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import userService from './services/user';
 import loginService from './services/login';
+import noccocoinsService from './services/noccocoins';
 import Notification from './components/Notification';
 import {
   Card,
@@ -14,16 +15,21 @@ import { Switch, Route } from 'react-router-dom';
 import PhotoGallery from './components/PhotoGallery';
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
+import NewPhoto from './components/NewPhoto';
+import Mine from './components/Mine';
+import user from './services/user';
 
 const App = () => {
   const classes = useStyles();
-  const [nickname, setNickname] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(undefined);
   const [notificationType, setNotificationType] = useState('');
   const [notificationMessage, setNotificationMessage] = useState('');
   const [toggleLogin, setToggleLogin] = useState('login');
   const [userInfo, setUserInfo] = useState();
+  const [friendId, setFriendId] = useState();
+  const [friends, setFriends] = useState([]);
 
   const noccos = [
     {
@@ -51,31 +57,34 @@ const App = () => {
   useEffect(() => {
     let loggedUserJSON = window.localStorage.getItem('nocccoinUser');
     if (loggedUserJSON) {
-      console.log(loggedUserJSON);
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      userService.setToken(user.user_id);
+      setPassword(user.password);
+      setUserId(user.userId);
+      userService.setToken(user.userId);
     }
   }, []);
 
-  useEffect(() => {
-    console.log(user);
-    const newUserInfo = userService.getBasicInfo();
-    setUserInfo(newUserInfo);
-  }, [user]);
+  useEffect(async () => {
+    if (userId) {
+      const newUserInfo = await userService.getBasicInfo();
+      setUserInfo(newUserInfo);
+      const allUsers = await userService.getAllUsers();
+      setFriends(allUsers);
+    }
+  }, [userId]);
 
   const handleSignUp = async () => {
     try {
-      const user = await loginService.createUser({
-        user_id: 1,
-        nickname,
+      const userId = await loginService.createUser({
+        username,
         password,
       });
-      window.localStorage.setItem('nocccoinUser', JSON.stringify(user));
-      userService.setToken(user.user_id);
-      setUser(user);
-      setNickname('');
-      setPassword('');
+      window.localStorage.setItem(
+        'nocccoinUser',
+        JSON.stringify({ password: password, userId: userId }),
+      );
+      userService.setToken(userId);
+      setUserId(userId);
     } catch (exception) {
       setNotificationMessage('Wrong username or password');
       setNotificationType('error');
@@ -87,15 +96,16 @@ const App = () => {
 
   const handleLogin = async () => {
     try {
-      const user = await loginService.login({
-        nickname,
+      const userId = await loginService.login({
+        username,
         password,
       });
-      window.localStorage.setItem('nocccoinUser', JSON.stringify(user));
-      userService.setToken(user.user_id);
-      setUser(user);
-      setNickname('');
-      setPassword('');
+      window.localStorage.setItem(
+        'nocccoinUser',
+        JSON.stringify({ password: password, userId: userId._id }),
+      );
+      userService.setToken(userId._id);
+      setUserId(userId._id);
     } catch (exception) {
       setNotificationMessage('Wrong username or password');
       setNotificationType('error');
@@ -105,27 +115,71 @@ const App = () => {
     }
   };
 
+  const handleLogout = () => {
+    window.localStorage.clear();
+    setUsername('');
+    setPassword('');
+    setUserId(undefined);
+    setUserInfo(undefined);
+  };
+
+  const handleTransfer = async () => {
+    const response = await noccocoinsService.transferCoins(
+      password,
+      userId,
+      '6095b3f1e0eccae5569a3c94',
+      2,
+    );
+    console.log(response);
+    const newUserInfo = {
+      ...userInfo,
+      nocccoins: response.nocccoins,
+    };
+    setUserInfo(newUserInfo);
+  };
+
   const renderUserInfo = () => (
     <Card className={classes.root} raised={true}>
       <CardContent>
         <Typography className={classes.title} color="primary" gutterBottom>
-          {userInfo.nickname + ' logged in'}
+          {'Hello ' + userInfo.username + '!'}
         </Typography>
         <Typography color="textSecondary" gutterBottom>
-          {userInfo.user_id} Noccocoins
+          You have {userInfo.nocccoins} Noccocoins
         </Typography>
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick={() => {
-            window.localStorage.clear();
-            setUser(null);
-          }}
-        >
-          Logout
-        </Button>
+      </CardContent>
+    </Card>
+  );
+
+  const renderActionBox = () => (
+    <Card raised={true}>
+      <CardContent>
+        <Typography>Your friends!</Typography>
+        {friends.map(friend => {
+          return (
+            <Button
+              variant={'outlined'}
+              onClick={() => setFriendId(friend._id)}
+            >
+              {friend.username}
+            </Button>
+          );
+        })}
+        <div>
+          {friendId && (
+            <>
+              <Button
+                variant={'outlined'}
+                onClick={() => noccocoinsService.addCoins(userId, 5)}
+              >
+                Send new message
+              </Button>
+              <Button variant={'outlined'} onClick={handleTransfer}>
+                Send Nocccoins
+              </Button>
+            </>
+          )}
+        </div>
       </CardContent>
     </Card>
   );
@@ -137,10 +191,10 @@ const App = () => {
           variant="outlined"
           margin="normal"
           fullWidth
-          id={'nickname'}
-          label={'Nickname'}
-          name={'nickname'}
-          onChange={({ target }) => setNickname(target.value)}
+          id={'username'}
+          label={'Username'}
+          name={'username'}
+          onChange={({ target }) => setUsername(target.value)}
         />
       </div>
       <div>
@@ -168,39 +222,50 @@ const App = () => {
 
   const renderLoggedInPage = () => (
     <div>
-      {renderUserInfo()}
+      <div className={classes.flex}>
+        {renderUserInfo()}
+        {renderActionBox()}
+      </div>
       <Dashboard noccoFlavors={noccos} />
     </div>
   );
+
   return (
     <div>
       <h1>Nocccoin</h1>
-      <Header user={user} />
+      <Header
+        userInfo={userInfo}
+        userId={userId}
+        handleLogout={() => handleLogout()}
+      />
       <Switch>
         <Route path="/photo-gallery">
           <PhotoGallery />
         </Route>
+        <Route path="/mine/photo">
+          <NewPhoto />
+        </Route>
         <Route path="/mine">
-          <PhotoGallery />
+          <Mine />
         </Route>
         <Route path="/">
           <h2>
-            {user === null
+            {!userInfo
               ? toggleLogin === 'login'
                 ? 'Login'
                 : 'Sign up'
               : 'Your Nocccoins'}
           </h2>
-          {user === null && (
+          {!userInfo && (
             <Button
               onClick={() =>
                 setToggleLogin(toggleLogin === 'login' ? 'signup' : 'login')
               }
             >
-              {toggleLogin === 'login' ? 'Login' : 'Sign up'}
+              {toggleLogin === 'login' ? 'Sign up' : 'Login'}
             </Button>
           )}
-          {user === null ? renderSignUpForm() : renderLoggedInPage()}
+          {userInfo ? renderLoggedInPage() : renderSignUpForm()}
         </Route>
       </Switch>
       <Notification
@@ -223,6 +288,10 @@ const useStyles = makeStyles({
   },
   title: {
     fontSize: 18,
+  },
+  flex: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 });
 
