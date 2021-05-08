@@ -7,7 +7,6 @@ const PhotoGallery = () => {
 
   useEffect(() => {
     getAllImages();
-    console.log(images);
   }, [images]);
 
   const getAllImages = async () => {

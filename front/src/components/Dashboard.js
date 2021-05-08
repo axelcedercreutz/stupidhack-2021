@@ -6,8 +6,11 @@ import {
   TableCell,
   TableBody,
 } from '@material-ui/core';
+import useStore from '../store';
 
-const Dashboard = props => {
+const Dashboard = () => {
+  const { userInfo } = useStore(state => state);
+  console.log(userInfo);
   return (
     <>
       <Table>
@@ -18,14 +21,15 @@ const Dashboard = props => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.noccoFlavors.map(noccoFlavor => {
-            return (
-              <TableRow>
-                <TableCell>{noccoFlavor.flavor}</TableCell>
-                <TableCell>{noccoFlavor.amount}</TableCell>
-              </TableRow>
-            );
-          })}
+          {userInfo.flavors &&
+            userInfo.flavors.map(noccoFlavor => {
+              return (
+                <TableRow>
+                  <TableCell>{noccoFlavor.flavor}</TableCell>
+                  <TableCell>{noccoFlavor.amount}</TableCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
     </>
