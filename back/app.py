@@ -74,7 +74,8 @@ def post_user(username: str = Body(...), password: str = Body(...)):
     user = User()
     user.username = username
     user.hashed_password = hash(password, user.salt)
-    u = db.users.insert_one(user.dict())
+    uu = db.users.insert_one(user.dict())
+    u = db.users.find_one({ 'username': user.username })
     #return str(u.inserted_id)
     return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': str(u['flavours']), '_id': str(u['_id'])}
 
