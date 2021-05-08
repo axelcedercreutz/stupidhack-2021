@@ -50,14 +50,6 @@ const Friend = props => {
         ))}
       </div>
       <div>
-        {/*
-        <Button
-          variant={'outlined'}
-          onClick={() => nocccoinsService.addCoins(userId, 5)}
-        >
-          Send new message
-        </Button>
-        */}
         <TextField
           variant="outlined"
           margin="normal"

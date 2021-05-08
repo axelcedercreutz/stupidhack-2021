@@ -9,10 +9,10 @@ const MinePage = () => {
   return (
     <Page>
       <Typography variant="h4" component="h2" align="center" padding="20">
-        Latest block
+        Latest Noccc
       </Typography>
 
-      <Image src="http://noccco.in/api/nocccoins/mine" />
+      <Image src="https://noccco.in/api/nocccoins/mine" />
 
       <Spacer />
 
