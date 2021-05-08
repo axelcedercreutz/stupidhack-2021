@@ -3,15 +3,31 @@ import useStore from '../store';
 
 const Dashboard = () => {
   const { userInfo } = useStore(state => state);
-  return Array.isArray(userInfo.flavours) ? (
-    <div>
-      <h3>Your Noccoflavours</h3>
-      {userInfo.flavours.map(noccoFlavor => {
-        return <div>{noccoFlavor}</div>;
-      })}
-      <br />
-    </div>
-  ) : null;
+  if (!Array.isArray(userInfo.flavours)) return null;
+
+  const uniqueFlavours = Array.from(new Set(userInfo.flavours));
+  return (
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Flavor</TableCell>
+          <TableCell>Amount</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {uniqueFlavours.map(noccoFlavor => {
+          return (
+            <TableRow key={noccoFlavor}>
+              <TableCell>{noccoFlavor}</TableCell>
+              <TableCell>
+                {userInfo.flavours.filter(x => x === noccoFlavor).length}
+              </TableCell>
+            </TableRow>
+          );
+        })}
+      </TableBody>
+    </Table>
+  );
 };
 
 export default Dashboard;

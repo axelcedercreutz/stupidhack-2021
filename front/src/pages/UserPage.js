@@ -27,6 +27,7 @@ const UserPage = () => {
       <div>
         <div>
           <Dashboard />
+          <br />
         </div>
         <div>
           <Card raised={true} style={{ margin: '0 0 16px 0' }}>
@@ -85,7 +86,8 @@ const UserPage = () => {
                         key={message.from_id + index}
                         variant={'body2'}
                       >
-                        {messageFrom} => {messageTo} ({message.amount})
+                        From: {messageFrom}, To: {messageTo} (amount:{' '}
+                        {message.amount})
                       </Typography>
                     </div>
                   );

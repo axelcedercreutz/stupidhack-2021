@@ -31,7 +31,9 @@ const getTransfers = async (fromId, toId, transferId) => {
     to_id: toId,
     transfer_id: transferId,
   };
-  const response = await axios.get(nocccoinsBaseUrl + '/transfers', data);
+  const response = await axios.get(nocccoinsBaseUrl + '/transfers', {
+    params: data,
+  });
   return response.data;
 };
 

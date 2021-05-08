@@ -41,7 +41,7 @@ class User(BaseModel):
     username: str = ''
     salt: str = base64.b64encode(os.urandom(32))
     hashed_password: str = ''
-    nocccoins: int = 3
+    nocccoins: int = 0
     flavours: list = []
 
 # Helpers
@@ -51,7 +51,7 @@ def _set_nocccoins(user_id: str, amount: int):
 
 
 def _set_flavours(user_id: str, flavours: list):
-    res = db.users.update_one({ '_id': ObjectId(user_id) }, { "$set": { "flavours": list(set(flavours)) } })
+    res = db.users.update_one({ '_id': ObjectId(user_id) }, { "$set": { "flavours": list(flavours) } })
     return res
 
 def hash(plain_password, salt):
