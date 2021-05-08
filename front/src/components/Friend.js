@@ -17,11 +17,16 @@ const Friend = props => {
   }, []);
 
   const getAllMessages = async () => {
-    const allMessages = await nocccoinsService.getTransfers(
-      friend._id,
+    const allMessagesFrom = await nocccoinsService.getTransfers(
+      userId,
       friend._id,
     );
-    setMessages(allMessages);
+    const allMessagesTo = await nocccoinsService.getTransfers(
+      friend._id,
+      userId,
+    );
+    const messages = allMessagesTo.concat(allMessagesFrom);
+    setMessages(messages);
   };
 
   const handleTransfer = async () => {
