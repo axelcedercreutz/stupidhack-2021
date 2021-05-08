@@ -25,11 +25,10 @@ const transferCoins = async (password, userId, recieverId, amount, message) => {
   return response.data;
 };
 
-const getTransfers = async (fromId, toId, transferId) => {
+const getTransfers = async (fromId, toId) => {
   const data = {
     from_id: fromId,
     to_id: toId,
-    transfer_id: transferId,
   };
   const response = await axios.get(nocccoinsBaseUrl + '/transfers', {
     params: data,

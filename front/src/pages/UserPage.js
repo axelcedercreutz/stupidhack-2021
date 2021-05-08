@@ -17,9 +17,10 @@ const UserPage = () => {
   }, [friends, userId]);
 
   const getAllMessages = async () => {
-    const allMessages = await nocccoinServices.getTransfers(userId, userId);
-    const newestMessageFirst = allMessages.reverse();
-    setMessages(newestMessageFirst);
+    const allMessagesTo = await nocccoinServices.getTransfers(userId, null);
+    const allMessagesFrom = await nocccoinServices.getTransfers(null, userId);
+    const messages = allMessagesTo.concat(allMessagesFrom);
+    setMessages(messages);
   };
 
   return userInfo ? (
