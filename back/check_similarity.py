@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 EDISTANCE_THRESH = 15000
-ERROR_THRESH = 10100
+ERROR_THRESH = 12000
 SSIM_THRESH = 0.2
 
 def check_similarity(source):
