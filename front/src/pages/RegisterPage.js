@@ -9,7 +9,7 @@ import { Page } from '../styles';
 import { useStyles } from '../styles/theme';
 
 const RegisterPage = () => {
-  const { setUserId } = useStore(state => state);
+  const { setUserId, setIsLoggedIn } = useStore(state => state);
   const classes = useStyles();
 
   const [username, setUsername] = useState('');
@@ -18,12 +18,17 @@ const RegisterPage = () => {
 
   const handleSignUp = async () => {
     try {
-      const userId = await loginService.createUser({
-        username,
-        password,
-      });
-      userService.setToken(userId);
-      setUserId(userId);
+      if (password === confirmPassword) {
+        const userId = await loginService.createUser({
+          username,
+          password,
+        });
+
+        setUserId(userId);
+        setIsLoggedIn(true);
+      } else {
+        toast.error("Passwords don't match");
+      }
     } catch (exception) {
       toast.error('Failed to register');
     }

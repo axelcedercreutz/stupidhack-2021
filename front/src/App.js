@@ -23,9 +23,8 @@ const App = () => {
     <div>
       <h1>Nocccoin</h1>
       <Header />
-      <Switch>
-        <Route path="/"></Route>
 
+      <Switch>
         <Route path="/photo-gallery">
           <PhotoGallery />
         </Route>
@@ -35,7 +34,7 @@ const App = () => {
         </Route>
 
         {isLoggedIn ? (
-          <>
+          <Switch>
             <Route path="/friends/:id">
               <FriendPage />
             </Route>
@@ -48,16 +47,20 @@ const App = () => {
               <Mine />
             </Route>
 
-            <Route path="/profile">
+            <Route path="/">
               <UserPage />
             </Route>
-          </>
+          </Switch>
         ) : (
-          <>
+          <Switch>
             <Route path="/register">
               <RegisterPage />
             </Route>
-          </>
+
+            <Route path="/">
+              <LoginPage />
+            </Route>
+          </Switch>
         )}
       </Switch>
 
