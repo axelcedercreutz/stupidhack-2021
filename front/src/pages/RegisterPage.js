@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Typography, Box } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
@@ -34,7 +34,9 @@ const RegisterPage = () => {
 
   return (
     <Page>
-      <h2>Register</h2>
+      <Typography variant="h4" component="h2" align="center" padding="20">
+        Register
+      </Typography>
 
       <TextField
         variant="outlined"
@@ -43,6 +45,7 @@ const RegisterPage = () => {
         id={'username'}
         label={'Username'}
         name={'username'}
+        type="password"
         value={username}
         onChange={({ target }) => setUsername(target.value)}
       />
@@ -54,6 +57,7 @@ const RegisterPage = () => {
         id={'password'}
         label={'Password'}
         name={'password'}
+        type="password"
         value={password}
         onChange={({ target }) => setPassword(target.value)}
       />
@@ -79,7 +83,11 @@ const RegisterPage = () => {
         Register
       </Button>
 
-      <Link to="/">Log in</Link>
+      <Box p={3}>
+        <Typography variant="body2" align="center">
+          <Link to="/">Log in</Link>
+        </Typography>
+      </Box>
     </Page>
   );
 };
