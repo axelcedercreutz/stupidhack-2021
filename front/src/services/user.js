@@ -4,8 +4,6 @@ import { baseUrl } from '../utils/config';
 
 const userBaseUrl = baseUrl + '/users';
 
-let userId = null;
-
 const getAllUsers = async () => {
   const response = await axios.get(userBaseUrl);
   return response.data;
