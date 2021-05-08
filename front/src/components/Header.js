@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Typography } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoins } from '@fortawesome/free-solid-svg-icons';
 
 import MenuButton from '../components/MenuButton';
 import useStore from '../store';
@@ -35,7 +37,13 @@ const Menu = () => {
 
       <Spacer />
 
-      {userInfo && <div>{userInfo.nocccoins}</div>}
+      {!!userInfo && (
+        <Coins>
+          <Icon icon={faCoins} />
+
+          <Typography variant="body2">{userInfo?.nocccoins || 0}</Typography>
+        </Coins>
+      )}
 
       <MenuButton show={isOpen} toggleShow={toggleIsOpen} />
 
@@ -170,6 +178,18 @@ const MenuItem = styled(Typography)`
   :hover {
     opacity: 0.6;
   }
+`;
+
+const Coins = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  color: #555;
+`;
+
+const Icon = styled(FontAwesomeIcon)`
+  margin-right: 0.5rem;
 `;
 
 export default Menu;
