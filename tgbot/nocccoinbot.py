@@ -1,12 +1,13 @@
 import telebot
 import requests
+import json
 import base64
 
 API_TOKEN = "1807161420:AAHOFjG9SS5hwb62DKhRSFmP_fmA7nsLLa8"
 bot = telebot.TeleBot(API_TOKEN)
 baseURL = 'http://95.217.14.19:8000'
 user = {"username":"", "password":""}
-userId= ""
+userId= "6095b6e5aeb80e67b4e4006c"
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -23,8 +24,8 @@ def send_nocccoin(message):
 
 @bot.message_handler(content_types=['photo'])
 def mine(message):
-    if (userId == ""):
-        bot.send("Please login")
+    if 0:#(userId == ""):
+        bot.reply_to(message,"Please login by typing: \login")
     else:
         try:
             print('message.photo =', message.photo)
@@ -38,12 +39,15 @@ def mine(message):
                 new_file.write(downloaded_file)
 
             url = baseURL + '/nocccoins/mine'
-            data = {'user_id': userId, 'image': downloaded_file}
-            headers = {'content-type:': 'application/json'}
-            response = requests.post(url,headers = headers, data = data)
-            print(response)
-        except:
-            print("vituixmän")
+            image = str(base64.b64encode(downloaded_file))
+            image = image[2:]
+            data = {'user_id': userId, 'image': image}
+            headers = {'content-type': 'application/json'}
+            #print(image)
+            response = requests.post(url, headers=headers, data=json.dumps(data))
+            print(response.json())
+        except Exception as exp:
+            print(exp)
 
 
 
@@ -58,7 +62,7 @@ Start login by inputting your username
 def process_username_step(message):
     try:
         chat_id = message.chat.id
-        user.username = message.text
+        user["username"] = message.text
         msg = bot.reply_to(message, 'And now send your password')
         bot.register_next_step_handler(msg, process_password_step)
     except Exception as e:
@@ -67,11 +71,12 @@ def process_username_step(message):
 def process_password_step(message):
     try:
         chat_id = message.chat.id
-        user.password = message.text
-
+        user["password"] = message.text
         data = {"password": user["password"], "username": user["username"]}
-        response = requests.post(baseURL + '/users/login/', headers={"content-type": "application/json"}, data=data)
+        response = requests.post(baseURL + '/users/login/', headers={"content-type": "application/json"}, data=json.dumps(data))
         responseData = response.json()
+        print(response)
+        print(responseData)
         if (response.status_code != '200'):
             bot.reply_to(message, "Something went wrong. Check that you gave valid credential")
         else:
