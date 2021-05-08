@@ -6,7 +6,7 @@ import base64
 API_TOKEN = "1807161420:AAHOFjG9SS5hwb62DKhRSFmP_fmA7nsLLa8"
 bot = telebot.TeleBot(API_TOKEN)
 baseURL = 'http://95.217.14.19:8000'
-user = {"username":"", "password":""}
+user = {'username': '', 'password': ''}
 userId= "6095b6e5aeb80e67b4e4006c"
 
 @bot.message_handler(commands=['start'])
@@ -71,19 +71,18 @@ def process_username_step(message):
 def process_password_step(message):
     try:
         chat_id = message.chat.id
-        user["password"] = message.text
-        data = {"password": user["password"], "username": user["username"]}
-        response = requests.post(baseURL + '/users/login/', headers={"content-type": "application/json"}, data=json.dumps(data))
-        responseData = response.json()
-        print(response)
-        print(responseData)
-        if (response.status_code != '200'):
-            bot.reply_to(message, "Something went wrong. Check that you gave valid credential")
+        user['password'] = message.text
+        data = user
+        url = baseURL + '/users/login/'
+        response = requests.post(url, headers={'content-type': 'application/json'}, data=json.dumps(data))
+        response_data = response.json()
+        if "_id" in response_data.keys():
+            userId = response_data["_id"]
         else:
-            if "_id" in responseData.keys():
-                userId = responseData["_id"]
+            bot.reply_to(message, "Something went wrong. Check that you gave valid credential")
 
     except Exception as e:
+        print(e)
         bot.reply_to(message, 'oooops')
 
 

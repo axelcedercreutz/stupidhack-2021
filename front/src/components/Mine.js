@@ -11,29 +11,29 @@ const Mine = () => {
 
   useEffect(() => getMineableNocco(), [image]);
 
-  console.log(image);
-
   const getMineableNocco = async () => {
     const latestNoccchain = await noccocoinsService.getMineNocco();
     setImage(latestNoccchain);
   };
 
   return (
-    <Page>
-      <Typography variant="h4" component="h2" align="center" padding="20">
-        Register
-      </Typography>
+    image && (
+      <Page>
+        <Typography variant="h4" component="h2" align="center" padding="20">
+          Register
+        </Typography>
 
-      <Link to="/mine/photo">New Photo</Link>
+        <Link to="/mine/photo">New Photo</Link>
 
-      <div className={classes.root}>
-        <Card>
-          <CardContent>
-            <img src={image} />
-          </CardContent>
-        </Card>
-      </div>
-    </Page>
+        <div className={classes.root}>
+          <Card>
+            <CardContent>
+              <img src={image} />
+            </CardContent>
+          </Card>
+        </div>
+      </Page>
+    )
   );
 };
 
