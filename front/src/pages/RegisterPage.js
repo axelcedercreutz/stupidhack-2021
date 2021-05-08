@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import { toast } from 'react-toastify';
 
-import { useStore } from '../store';
+import useStore from '../store';
 import loginService from '../services/login';
 import userService from '../services/user';
 import { Page } from '../styles';

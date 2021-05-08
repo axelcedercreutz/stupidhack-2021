@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useStore } from '../store';
+import useStore from '../store';
 
 const baseUrl = 'http://localhost:8000/users';
 
