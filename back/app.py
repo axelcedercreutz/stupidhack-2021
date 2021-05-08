@@ -127,12 +127,14 @@ def add_nocccoins(user_id: str = Body(...), amount: int = Body(...)):
     _set_nocccoins(user_id, to_u['nocccoins'] + amount)
     return get_user(user_id)
 
+@app.get("/nocccoins/mine")
+def get_mine_challenge():
+    return FileResponse('reference.png')
 
 @app.get("/nocccoins/{noccchain_id}")
 def get_nocccoin(noccchain_id: int):
     u = db.noccchain.find_one({ 'noccchain_id': noccchain_id })
     return {**u, '_id': str(u['_id'])}
-
 
 @app.post("/nocccoins/mine")
 def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
@@ -158,7 +160,7 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
     
     # TODO: Use censored image to find noccos 
 
-    flavours = nocoaly.find_noccos(im_arr) 
+    flavours = nocoaly.find_noccos(im_bytes) 
 
     if len(flavours) == 0:
         raise HTTPException(status_code=400, detail="Nocco not found")

@@ -6,7 +6,7 @@ import numpy as np
 
 EDISTANCE_THRESH = 15000
 ERROR_THRESH = 10100
-SSIM_THRESH = 0.3
+SSIM_THRESH = 0.2
 
 def check_similarity(source):
     global EDISTANCE_THRESH
