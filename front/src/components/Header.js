@@ -7,7 +7,9 @@ import MenuButton from '../components/MenuButton';
 import useStore from '../store';
 
 const Menu = () => {
-  const { setUserId, setUserInfo, isLoggedIn } = useStore(state => state);
+  const { setUserId, setUserInfo, userInfo, isLoggedIn } = useStore(
+    state => state,
+  );
 
   const history = useHistory();
 
@@ -26,25 +28,56 @@ const Menu = () => {
 
   return (
     <Navbar isOpen={isOpen}>
-      <Image src={process.env.PUBLIC_URL + '/assets/nocccoin-logo.svg'} />
+      <Image
+        src={process.env.PUBLIC_URL + '/assets/nocccoin-logo.svg'}
+        onClick={() => navigate('/')}
+      />
 
       <Spacer />
+
+      {userInfo && <div>{userInfo.nocccoins}</div>}
 
       <MenuButton show={isOpen} toggleShow={toggleIsOpen} />
 
       <MenuList isOpen={isOpen}>
         <MenuListWrapper>
-          <MenuItem variant="body1" onClick={() => navigate('/')}>
-            Home
+          <MenuItem variant="body1" onClick={() => navigate('/mine')}>
+            Start Mining
           </MenuItem>
 
           <MenuItem variant="body1" onClick={() => navigate('/photo-gallery')}>
             Photo Gallery
           </MenuItem>
 
-          <MenuItem variant="body1" onClick={() => navigate('/mine')}>
-            Start Mining
-          </MenuItem>
+          {isLoggedIn() ? (
+            <>
+              <MenuItem variant="body1" onClick={() => navigate('/')}>
+                Profile
+              </MenuItem>
+
+              <MenuItem variant="body1" onClick={() => navigate('/mine')}>
+                Mine
+              </MenuItem>
+
+              <Hr />
+
+              <MenuItem variant="body1" onClick={() => handleLogout()}>
+                Log out
+              </MenuItem>
+            </>
+          ) : (
+            <>
+              <Hr />
+
+              <MenuItem variant="body1" onClick={() => navigate('/login')}>
+                Log in
+              </MenuItem>
+
+              <MenuItem variant="body1" onClick={() => navigate('/register')}>
+                Register
+              </MenuItem>
+            </>
+          )}
         </MenuListWrapper>
       </MenuList>
     </Navbar>
@@ -87,6 +120,14 @@ const Spacer = styled.div`
 const Image = styled.img`
   width: 150px;
   max-width: 30vw;
+`;
+
+const Hr = styled.div`
+  width: 100%;
+  max-width: 100px;
+  height: 1px;
+  background-color: lightgrey;
+  margin: 2rem auto;
 `;
 
 const MenuList = styled.div`
