@@ -5,7 +5,7 @@ import base64
 API_TOKEN = "1807161420:AAHOFjG9SS5hwb62DKhRSFmP_fmA7nsLLa8"
 bot = telebot.TeleBot(API_TOKEN)
 baseURL = ''
-user = {username = "", password = ""}
+user = {username:"", password:""}
 userId= ""
 
 @bot.message_handler(commands=['start'])
@@ -63,7 +63,8 @@ def mine(message):
         except Exception as e:
             bot.reply_to(message, 'oooops something went wrong')
 
-    response = requests.post(baseURL)
+    data = {"password":user.password, "username":user.username}
+    response = requests.post(baseURL + '/users/login/', )
 
     def process_password_step(message):
         try:
