@@ -55,7 +55,7 @@ const getNocccainLength = async () => {
 };
 
 const getNocccainById = async nocccainId => {
-  const response = await axios.get(nocccoinsBaseUrl + `/length/${nocccainId}`);
+  const response = await axios.get(baseUrl + `/noccchain/${nocccainId}`);
   return response.data;
 };
 

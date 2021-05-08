@@ -36,7 +36,7 @@ const UserPage = () => {
                     variant={'outlined'}
                     style={{ margin: 8 }}
                     href={`/friends/${friend._id}`}
-                    key={friend.username}
+                    key={friend._id}
                   >
                     {friend.username}
                   </Button>

@@ -59,17 +59,13 @@ const Menu = () => {
           </MenuItem>
 
           <MenuItem variant="body1" onClick={() => navigate('/photo-gallery')}>
-            Photo Gallery
+            Noccchain
           </MenuItem>
 
           {isLoggedIn() ? (
             <>
               <MenuItem variant="body1" onClick={() => navigate('/')}>
                 Profile
-              </MenuItem>
-
-              <MenuItem variant="body1" onClick={() => navigate('/mine')}>
-                Mine
               </MenuItem>
 
               <Hr />
