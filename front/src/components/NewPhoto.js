@@ -6,14 +6,20 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import noccocoinsService from '../services/noccocoins';
 import useStore from '../store';
+import userService from '../services/user';
 
 const NewPhoto = () => {
-  const { userId } = useStore(state => state);
+  const { userId, setUserInfo } = useStore(state => state);
   const { setLatestChainId } = useStore(state => state);
 
   const updateChainLength = async () => {
     const chainLength = await noccocoinsService.getNocccainLength();
     setLatestChainId(chainLength);
+  };
+
+  const updateUserInfo = async () => {
+    const updatedUserInfo = await userService.getBasicInfo();
+    setUserInfo(updatedUserInfo);
   };
 
   const onChange = async imageList => {
@@ -26,6 +32,7 @@ const NewPhoto = () => {
         await noccocoinsService.mineCoin(userId, imageData);
         toast.success('Image added to chain');
         updateChainLength();
+        updateUserInfo();
       } catch (e) {
         toast.error("Couldn't add image");
       }
