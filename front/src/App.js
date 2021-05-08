@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Switch, Route, Link, useRouteMatch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
-import userService from './services/user';
-import loginService from './services/login';
 import noccocoinsService from './services/noccocoins';
 import PhotoGallery from './components/PhotoGallery';
-import Dashboard from './components/Dashboard';
 import Header from './components/Header';
 import NewPhoto from './components/NewPhoto';
 import Mine from './components/Mine';
@@ -35,11 +32,7 @@ const App = () => {
   return (
     <div>
       <h1>Nocccoin</h1>
-      <Header
-        userInfo={userInfo}
-        userId={userId}
-        handleLogout={() => handleLogout()}
-      />
+      <Header />
       <Switch>
         <Route path="/friends/:id">
           {
