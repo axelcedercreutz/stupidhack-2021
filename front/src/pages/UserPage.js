@@ -32,7 +32,9 @@ const UserPage = () => {
               <Typography>Visit your friends:</Typography>
               {friends.map(friend => {
                 return (
-                  <Link to={`/friends/${friend._id}`}>{friend.username}</Link>
+                  <Link key={friend._id} to={`/friends/${friend._id}`}>
+                    {friend.username}
+                  </Link>
                 );
               })}
             </CardContent>

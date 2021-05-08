@@ -18,7 +18,6 @@ const PhotoGallery = () => {
       promises.push(newImage);
     }
     const newImages = await promises;
-    console.log(newImages);
     setImages(newImages);
   };
 
