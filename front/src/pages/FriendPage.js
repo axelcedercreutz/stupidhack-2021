@@ -1,5 +1,6 @@
 import { useRouteMatch } from 'react-router-dom';
 import Friend from '../components/Friend';
+import { CircularProgress } from '@material-ui/core';
 import useStore from '../store';
 
 const FriendPage = () => {
@@ -11,7 +12,7 @@ const FriendPage = () => {
     ? friends.find(friend => friend._id === match.params.id)
     : undefined;
 
-  return <Friend friend={friend} />;
+  return friend ? <Friend friend={friend} /> : <CircularProgress />;
 };
 
 export default FriendPage;

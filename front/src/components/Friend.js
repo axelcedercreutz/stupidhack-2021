@@ -23,11 +23,6 @@ const Friend = props => {
   };
 
   const handleTransfer = async () => {
-    console.log(userInfo.password);
-    console.log(userId);
-    console.log(friend._id);
-    console.log(amount);
-    console.log(message);
     const response = await nocccoinsService.transferCoins(
       userInfo.password,
       userId,

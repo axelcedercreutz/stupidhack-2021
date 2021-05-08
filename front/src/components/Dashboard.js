@@ -10,9 +10,8 @@ import useStore from '../store';
 
 const Dashboard = () => {
   const { userInfo } = useStore(state => state);
-  console.log(userInfo);
   return (
-    <>
+    userInfo.flavors && (
       <Table>
         <TableHead>
           <TableRow>
@@ -21,18 +20,17 @@ const Dashboard = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {userInfo.flavors &&
-            userInfo.flavors.map(noccoFlavor => {
-              return (
-                <TableRow>
-                  <TableCell>{noccoFlavor.flavor}</TableCell>
-                  <TableCell>{noccoFlavor.amount}</TableCell>
-                </TableRow>
-              );
-            })}
+          {userInfo.flavors.map(noccoFlavor => {
+            return (
+              <TableRow>
+                <TableCell>{noccoFlavor.flavor}</TableCell>
+                <TableCell>{noccoFlavor.amount}</TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
-    </>
+    )
   );
 };
 

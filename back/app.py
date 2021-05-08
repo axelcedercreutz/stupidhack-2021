@@ -95,6 +95,8 @@ def find_user(username: str = ''):
 @app.post("/users/login")
 def login_user(username: str = Body(...), password: str = Body(...)):
     u = db.users.find_one({ 'username': username })
+    if not u:
+        raise HTTPException(status_code=404, detail="No user")
     if u['hashed_password'] != hash(password, u['salt']):
         raise HTTPException(status_code=401, detail="No permission")
     #return {**u, '_id': str(u['_id'])}

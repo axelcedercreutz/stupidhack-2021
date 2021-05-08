@@ -1,16 +1,19 @@
 import axios from 'axios';
 import useStore from '../store';
+import { baseUrl } from '../utils/config';
 
-const baseUrl = 'http://localhost:8000/users';
+const userBaseUrl = baseUrl + '/users';
+
+let userId = null;
 
 const getAllUsers = async () => {
-  const response = await axios.get(baseUrl);
+  const response = await axios.get(userBaseUrl);
   return response.data;
 };
 
 const getBasicInfo = async () => {
   const userId = useStore.getState().userId;
-  const response = await axios.get(baseUrl + `/${userId}`);
+  const response = await axios.get(userBaseUrl + `/${userId}`);
   return response.data;
 };
 
@@ -21,7 +24,7 @@ const getPrivateInfo = async credentials => {
     },
   };
   const userId = useStore.getState().userId;
-  const response = await axios.get(baseUrl + `/${userId}`, config);
+  const response = await axios.get(userBaseUrl + `/${userId}`, config);
   return response.data;
 };
 

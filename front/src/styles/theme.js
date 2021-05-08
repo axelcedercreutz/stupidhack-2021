@@ -2,8 +2,8 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles({
   root: {
-    width: '18%',
-    margin: '2%',
+    width: '100%',
+    margin: '32px 0',
     display: 'inline-block',
     '@media screen and (max-width: 960px)': {
       width: 200,

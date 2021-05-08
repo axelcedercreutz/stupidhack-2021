@@ -1,13 +1,15 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:8000/nocccoins';
+import { baseUrl } from '../utils/config';
+
+const nocccoinsBaseUrl = baseUrl + '/nocccoins';
 
 const getAllNocccoins = async () => {
-  const response = await axios.get(baseUrl);
+  const response = await axios.get(nocccoinsBaseUrl);
   return response.data;
 };
 
 const getNocccoin = async id => {
-  const response = await axios.get(baseUrl + `/${id}`);
+  const response = await axios.get(nocccoinsBaseUrl + `/${id}`);
   return response.data;
 };
 
@@ -16,8 +18,7 @@ const addCoins = async (userId, amount) => {
     user_id: userId,
     amount,
   };
-  const response = await axios.post(baseUrl + '/add', data);
-  console.log(response.data);
+  const response = await axios.post(nocccoinsBaseUrl + '/add', data);
   return response.data;
 };
 
@@ -29,8 +30,7 @@ const transferCoins = async (password, userId, recieverId, amount, message) => {
     amount,
     message,
   };
-  console.log(data);
-  const response = await axios.post(baseUrl + '/transfers', data);
+  const response = await axios.post(nocccoinsBaseUrl + '/transfers', data);
   return response.data;
 };
 
@@ -40,12 +40,12 @@ const getTransfers = async (fromId, toId, transferId) => {
     to_id: toId,
     transfer_id: transferId,
   };
-  const response = await axios.get(baseUrl + '/transfers', data);
+  const response = await axios.get(nocccoinsBaseUrl + '/transfers', data);
   return response.data;
 };
 
 const getMineNocco = async () => {
-  const response = await axios.get(baseUrl + '/mine');
+  const response = await axios.get(nocccoinsBaseUrl + '/mine');
   return response.data;
 };
 
@@ -54,17 +54,17 @@ const mineCoin = async (userId, image) => {
     user_id: userId,
     image,
   };
-  const response = await axios.post(baseUrl + '/mine', data);
+  const response = await axios.post(nocccoinsBaseUrl + '/mine', data);
   return response.data;
 };
 
 const getNocccainLength = async () => {
-  const response = await axios.get(baseUrl + '/length');
+  const response = await axios.get(nocccoinsBaseUrl + '/length');
   return response.data;
 };
 
 const getNocccainById = async nocccainId => {
-  const response = await axios.get(baseUrl + `/length/${nocccainId}`);
+  const response = await axios.get(nocccoinsBaseUrl + `/length/${nocccainId}`);
   return response.data;
 };
 
