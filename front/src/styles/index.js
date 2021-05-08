@@ -7,7 +7,6 @@ export const Page = styled.main`
   justify-content: center;
   width: 100vw;
   max-width: 500px;
-  padding: 0 1rem;
-  padding-top: 20vh;
+  padding: 8rem 1rem;
   margin: 0 auto;
 `;

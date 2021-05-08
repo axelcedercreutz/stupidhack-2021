@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, makeStyles } from '@material-ui/core';
 import nocccoinsService from '../services/noccocoins';
+import { Page } from '../styles';
 
 const PhotoGallery = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
     getAllImages();
-  }, [images]);
+  }, []);
 
   const getAllImages = async () => {
     const getLengthOfNoccchain = await nocccoinsService.getNocccainLength();
@@ -21,10 +22,12 @@ const PhotoGallery = () => {
     setImages(newImages);
   };
 
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <Typography>Photogallery of all them Nocccoins</Typography>
+    <Page>
+      <Typography variant="h4" component="h2">
+        All dem Nocccoins
+      </Typography>
+
       {images.map(image => {
         return (
           <Card>
@@ -34,7 +37,7 @@ const PhotoGallery = () => {
           </Card>
         );
       })}
-    </div>
+    </Page>
   );
 };
 

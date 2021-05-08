@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography, Box } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import useStore from '../store';
 import loginService from '../services/login';
@@ -33,7 +34,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <Page>
+    <PageWrapper>
       <Typography variant="h4" component="h2" align="center" padding="20">
         Register
       </Typography>
@@ -88,8 +89,12 @@ const RegisterPage = () => {
           <Link to="/">Log in</Link>
         </Typography>
       </Box>
-    </Page>
+    </PageWrapper>
   );
 };
+
+const PageWrapper = styled(Page)`
+  padding-top: 5rem;
+`;
 
 export default RegisterPage;
