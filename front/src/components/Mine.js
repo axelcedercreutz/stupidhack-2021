@@ -9,14 +9,12 @@ const Mine = () => {
 
   useEffect(() => getMineableNocco(), [image]);
 
-  console.log(image);
-
   const getMineableNocco = async () => {
     const latestNoccchain = await noccocoinsService.getMineNocco();
     setImage(latestNoccchain);
   };
 
-  return (
+  return image ? (
     <>
       <Link to="/mine/photo">New Photo</Link>
       <div className={classes.root}>
@@ -27,7 +25,7 @@ const Mine = () => {
         </Card>
       </div>
     </>
-  );
+  ) : null;
 };
 
 const useStyles = makeStyles({
