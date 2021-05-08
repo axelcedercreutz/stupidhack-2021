@@ -22,7 +22,6 @@ const LoginPage = () => {
         username,
         password,
       });
-
       window.localStorage.setItem('nocccoinUser', JSON.stringify(user));
       userService.setToken(user._id);
       setUserId(user._id);
