@@ -16,6 +16,7 @@ const UserPage = () => {
 
   const getAllMessages = async () => {
     const allMessages = await nocccoinServices.getTransfers(userId, userId);
+    console.log(allMessages);
     setMessages(allMessages);
   };
 
@@ -52,11 +53,12 @@ const UserPage = () => {
                     ? 'You'
                     : friends.filter(
                         friend => friend._id === message.from_id,
-                      )[0];
+                      )[0].username;
                 const messageTo =
                   message.to_id === userId
                     ? 'You'
-                    : friends.filter(friend => friend._id === message.to_id)[0];
+                    : friends.filter(friend => friend._id === message.to_id)[0]
+                        .username;
                 return (
                   <Typography key={message.from_id + index}>
                     From:{messageFrom} To:
