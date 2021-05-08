@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Mine = () => {
   const classes = useStyles();
+
   return (
     <>
       <Link to="/mine/photo">New Photo</Link>

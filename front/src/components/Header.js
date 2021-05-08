@@ -1,8 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useStore from '../store';
 
 const Menu = props => {
-  const { userInfo, handleLogout } = props;
+  const { userInfo, setUserId, setUserInfo } = useStore(state => state);
+
+  const handleLogout = () => {
+    window.localStorage.clear();
+    setUserId(undefined);
+    setUserInfo(undefined);
+  };
+
   const padding = {
     paddingRight: 5,
   };
