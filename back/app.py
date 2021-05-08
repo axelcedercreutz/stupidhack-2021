@@ -41,7 +41,7 @@ class User(BaseModel):
     username: str = ''
     salt: str = base64.b64encode(os.urandom(32))
     hashed_password: str = ''
-    nocccoins: int = 0
+    nocccoins: int = 3
     flavours: list = []
 
 # Helpers
@@ -180,6 +180,8 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
         raise HTTPException(status_code=400, detail="Invalid chain")
     
     # TODO: Use censored image to find noccos 
+
+    print("Requesting noccoflavourdetection from nocoäly-AI @ Azure!")
 
     flavours = nocoaly.find_noccos(im_bytes) 
 
