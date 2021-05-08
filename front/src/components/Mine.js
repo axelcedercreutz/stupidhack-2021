@@ -17,13 +17,13 @@ const Mine = () => {
   };
 
   return (
-    image && (
+    !!image && (
       <Page>
         <Typography variant="h4" component="h2" align="center" padding="20">
-          Register
+          Mine NOCCCoins
         </Typography>
 
-        <Link to="/mine/photo">New Photo</Link>
+        <Link to="/mine/photo">Submit new photo</Link>
 
         <div className={classes.root}>
           <Card>
