@@ -23,12 +23,13 @@ const addCoins = async (userId, amount) => {
 
 const transferCoins = async (password, userId, recieverId, amount, message) => {
   const data = {
-    password,
     from_id: userId,
+    password,
     to_id: recieverId,
     amount,
     message,
   };
+  console.log(data);
   const response = await axios.post(baseUrl + '/transfers', data);
   return response.data;
 };

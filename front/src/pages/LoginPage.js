@@ -21,7 +21,6 @@ const LoginPage = () => {
         username,
         password,
       });
-
       window.localStorage.setItem('nocccoinUser', JSON.stringify(user));
       setUserId(user._id);
     } catch (exception) {

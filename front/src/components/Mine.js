@@ -9,6 +9,8 @@ const Mine = () => {
 
   useEffect(() => getMineableNocco(), [image]);
 
+  console.log(image);
+
   const getMineableNocco = async () => {
     const latestNoccchain = await noccocoinsService.getMineNocco();
     setImage(latestNoccchain);

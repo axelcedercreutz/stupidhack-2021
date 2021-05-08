@@ -7,29 +7,6 @@ import useStore from '../store';
 import { useStyles } from '../styles/theme';
 import Dashboard from '../components/Dashboard';
 
-const noccos = [
-  {
-    flavor: 'Carnival',
-    amount: 1,
-  },
-  {
-    flavor: 'Mongo',
-    amount: 1,
-  },
-  {
-    flavor: 'Leila',
-    amount: 1,
-  },
-  {
-    flavor: 'Pekka',
-    amount: 1,
-  },
-  {
-    flavor: 'Olli "VIDUIXMÄÄÄN" GIGGILÄ',
-    amount: 1,
-  },
-];
-
 const UserPage = () => {
   const { userInfo, friends = [] } = useStore(state => state);
   const classes = useStyles();
@@ -59,7 +36,7 @@ const UserPage = () => {
           </CardContent>
         </Card>
 
-        <Dashboard noccoFlavors={noccos} />
+        <Dashboard />
       </Page>
     )
   );
