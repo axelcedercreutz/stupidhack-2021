@@ -18,14 +18,7 @@ const NewPhoto = () => {
 
   return takeNewPicture ? (
     <ImageUploading onChange={onChange}>
-      {({
-        imageList,
-        onImageUpload,
-        onImageUpdate,
-        onImageRemove,
-        isDragging,
-        dragProps,
-      }) => (
+      {({ imageList, onImageUpload, isDragging, dragProps }) => (
         // write your building UI
         <div style={{ marginTop: '16px' }}>
           {imageList.length === 0 && (
