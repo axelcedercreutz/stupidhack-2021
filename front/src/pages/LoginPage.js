@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 import useStore from '../store';
 import { Page } from '../styles';
@@ -65,6 +66,8 @@ const LoginPage = () => {
       >
         Log in
       </Button>
+
+      <Link to="/register">Register</Link>
     </Page>
   );
 };

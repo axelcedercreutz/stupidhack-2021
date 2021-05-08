@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 import useStore from '../store';
 import loginService from '../services/login';
-import userService from '../services/user';
 import { Page } from '../styles';
 import { useStyles } from '../styles/theme';
 
@@ -80,6 +80,8 @@ const RegisterPage = () => {
       >
         Register
       </Button>
+
+      <Link to="/">Log in</Link>
     </Page>
   );
 };
