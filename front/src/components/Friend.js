@@ -49,7 +49,7 @@ const Friend = props => {
 
   return friend ? (
     <Page>
-      <Typography>{friend.username}</Typography>
+      <Typography variant={'h4'}>{friend.username}</Typography>
       <div>
         {messages.map((message, index) => {
           return (

@@ -48,7 +48,8 @@ const NewPhoto = () => {
           2. Open the latest Noccchain picture on another other screen from here
         </ListItem>
         <ListItem>
-          3. Take a photo with your open Nocco and the latest Noccc in the Nocchain.
+          3. Take a photo with your open Nocco and the latest Noccc in the
+          Nocchain.
         </ListItem>
       </List>
 

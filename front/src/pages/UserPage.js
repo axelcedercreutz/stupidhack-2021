@@ -11,13 +11,15 @@ const UserPage = () => {
   const [messages, setMessages] = useState();
 
   useEffect(() => {
-    getAllMessages();
-  }, []);
+    if (friends) {
+      getAllMessages();
+    }
+  }, [friends, userId]);
 
   const getAllMessages = async () => {
     const allMessages = await nocccoinServices.getTransfers(userId, userId);
-    console.log(allMessages);
-    setMessages(allMessages);
+    const newestMessageFirst = allMessages.reverse();
+    setMessages(newestMessageFirst);
   };
 
   return userInfo ? (
@@ -48,12 +50,18 @@ const UserPage = () => {
             <Card>
               <CardContent>
                 <Typography variant="h5">Your latest messages</Typography>
-                {messages.reverse().map((message, index) => {
+                {messages.map((message, index) => {
                   const messageFrom =
                     message.from_id === userId
                       ? 'You'
                       : friends.filter(
                           friend => friend._id === message.from_id,
+                        )[0]?.username;
+                  const messageTo =
+                    message.to_id === userId
+                      ? 'You'
+                      : friends.filter(
+                          friend => friend._id === message.to_id,
                         )[0]?.username;
                   return (
                     <div
@@ -68,18 +76,16 @@ const UserPage = () => {
                         textAlign:
                           message.from_id === userId ? 'right' : 'left',
                       }}
+                      key={message.from_id + index}
                     >
-                      <Typography
-                        key={message.from_id + index}
-                        variant={'body1'}
-                      >
+                      <Typography variant={'body1'}>
                         {message.message}
                       </Typography>
                       <Typography
                         key={message.from_id + index}
                         variant={'body2'}
                       >
-                        {messageFrom}
+                        {messageFrom} => {messageTo} ({message.amount})
                       </Typography>
                     </div>
                   );
