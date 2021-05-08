@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 
 import { Page } from '../styles';
 import useStore from '../store';
@@ -43,7 +42,7 @@ const UserPage = () => {
               })}
             </CardContent>
           </Card>
-          {messages.length > 0 && (
+          {messages?.length > 0 && (
             <Card>
               <Typography>Your latest messages:</Typography>
               {messages.reverse().map(message => (

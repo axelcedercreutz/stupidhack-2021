@@ -9,6 +9,7 @@ const Friend = props => {
   const { userId, userInfo, setUserInfo } = useStore(state => state);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState();
+  const [password, setPassword] = useState();
   const [amount, setAmount] = useState(1);
   useEffect(() => {
     getAllMessages();
@@ -24,7 +25,7 @@ const Friend = props => {
 
   const handleTransfer = async () => {
     const response = await nocccoinsService.transferCoins(
-      userInfo.password,
+      password,
       userId,
       friend._id,
       amount,
@@ -70,6 +71,17 @@ const Friend = props => {
           value={amount}
           type={'number'}
           onChange={({ target }) => setAmount(target.value)}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id={'password'}
+          label={'Your password'}
+          name={'password'}
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+          type={'password'}
         />
         <Button variant={'outlined'} onClick={handleTransfer}>
           Send Nocccoins
