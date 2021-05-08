@@ -19,6 +19,9 @@ from draw_reference import draw_borders
 from validate_image import validate_image
 import nocoaly
 
+import hashlib
+import os
+
 client = pymongo.MongoClient("localhost", 27017)
 db = client.nocccoin
 
@@ -34,13 +37,12 @@ app.add_middleware(
 # TODO: replace with db
 users = []
 
-
 class User(BaseModel):
-    username: str
-    password: str
+    username: str = ''
+    salt: str = base64.b64encode(os.urandom(32))
+    hashed_password: str = ''
     nocccoins: int = 0
     flavours: list = []
-
 
 # Helpers
 def _set_nocccoins(user_id: str, amount: int):
@@ -52,6 +54,14 @@ def _set_flavours(user_id: str, flavours: list):
     res = db.users.update_one({ '_id': ObjectId(user_id) }, { "$set": { "flavours": list(set(flavours)) } })
     return res
 
+def hash(plain_password, salt):
+    return base64.b64encode(hashlib.pbkdf2_hmac(
+    'sha256', # The hash digest algorithm for HMAC
+    plain_password.encode('utf-8'), # Convert the password to bytes
+    salt, # Provide the salt
+    100000, # It is recommended to use at least 100,000 iterations of SHA-256
+    dklen=128 # Get a 128 byte key
+    ))
 
 # Endpoints 
 @app.get("/")
@@ -60,7 +70,10 @@ def read_root():
 
 
 @app.post("/users/")
-def post_user(user: User):
+def post_user(username: str = Body(...), password: str = Body(...)):
+    user = User()
+    user.username = username
+    user.hashed_password = hash(password, user.salt)
     u = db.users.insert_one(user.dict())
     return str(u.inserted_id)
 
@@ -75,22 +88,25 @@ def get_users():
 def find_user(username: str = ''):
     u = db.users.find_one({ 'username': username })
     # TODO: only return public data
-    return {**u, '_id': str(u['_id'])}
+    #return {**u, '_id': str(u['_id'])}
+    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': str(u['flavours']), '_id': str(u['_id'])}
 
 
 @app.post("/users/login")
 def login_user(username: str = Body(...), password: str = Body(...)):
     u = db.users.find_one({ 'username': username })
-    if u['password'] != password:
+    if u['hashed_password'] != hash(password, u['salt']):
         raise HTTPException(status_code=401, detail="No permission")
-    return {**u, '_id': str(u['_id'])}
+    #return {**u, '_id': str(u['_id'])}
+    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': str(u['flavours']), '_id': str(u['_id'])}
 
 
 @app.get("/users/{user_id}")
 def get_user(user_id: str):
     u = db.users.find_one({ '_id': ObjectId(user_id) })
     # TODO: only return public data
-    return {**u, '_id': str(u['_id'])}
+    #return {**u, '_id': str(u['_id'])}
+    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': str(u['flavours']), '_id': str(u['_id'])}
 
 
 @app.get("/nocccoins/transfers")
@@ -110,7 +126,7 @@ def get_transfers(from_id: str = '', to_id: str = '', transfer_id: str = ''):
 @app.post("/nocccoins/transfers")
 def transfer_nocccoins(from_id: str = Body(...), password: str = Body(...), to_id: str = Body(...), amount: int = Body(...), message: str = Body('')):
     from_u = db.users.find_one({ '_id': ObjectId(from_id) })
-    if not from_u['password'] == password:
+    if from_u['hashed_password'] != hash(password, u['salt']):
         raise HTTPException(status_code=401, detail="No permission")
     if from_u['nocccoins'] < amount:
         raise HTTPException(status_code=403, detail="Not enough nocccoins")
