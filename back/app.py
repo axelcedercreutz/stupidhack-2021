@@ -137,7 +137,7 @@ def transfer_nocccoins(from_id: str = Body(...), password: str = Body(...), to_i
     to_u = db.users.find_one({ '_id': ObjectId(to_id) })
     _set_nocccoins(from_id, from_u['nocccoins'] - amount)
     _set_nocccoins(to_id, to_u['nocccoins'] + amount)
-    t = db.transfers.insert_one({ 'from_id': from_id, 'to_id': to_id, 'message': message, 'timestamp': datetime.utcnow() })
+    t = db.transfers.insert_one({ 'from_id': from_id, 'to_id': to_id, 'amount':amount, 'message': message, 'timestamp': datetime.utcnow() })
     transfer = db.transfers.find_one({ '_id': t.inserted_id })
     return {**transfer, '_id': str(transfer['_id'])}
 
