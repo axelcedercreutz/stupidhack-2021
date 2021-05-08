@@ -182,10 +182,13 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
     # TODO: Use censored image to find noccos 
 
     flavours = nocoaly.find_noccos(im_bytes) 
-    print(flavours)
 
     if len(flavours) == 0:
+        print("No Noccos found")
         raise HTTPException(status_code=400, detail="Nocco not found")
+
+    print("Found the following Noccos: {}".format(flavours))
+    print("Giving user {} Nocccoins!".format(len(flavours)))
 
     user = db.users.find_one({ '_id': ObjectId(user_id) })
     _set_nocccoins(user_id, user['nocccoins'] + len(flavours))
@@ -198,6 +201,8 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
     with open(f"noccchain/{noccchain_id}.png", "wb") as fh:
         fh.write(base64.decodebytes(image))
     
+    print("Appending Noccc to Noccchain!")
+
     return get_nocccoin(noccchain_id)
 
 
