@@ -29,11 +29,7 @@ const App = () => {
           <PhotoGallery />
         </Route>
 
-        <Route path="/login">
-          <LoginPage />
-        </Route>
-
-        {isLoggedIn ? (
+        {isLoggedIn() ? (
           <Switch>
             <Route path="/friends/:id">
               <FriendPage />

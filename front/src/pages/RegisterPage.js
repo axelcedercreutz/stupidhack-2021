@@ -23,9 +23,7 @@ const RegisterPage = () => {
           username,
           password,
         });
-
         setUserId(userId);
-        setIsLoggedIn(true);
       } else {
         toast.error("Passwords don't match");
       }

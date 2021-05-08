@@ -1,11 +1,11 @@
 import create from 'zustand';
 
-const useStore = create(set => ({
+const useStore = create((set, get) => ({
   userId: null,
   setUserId: userId => set({ userId }),
   userInfo: null,
   setUserInfo: userInfo => set({ userInfo }),
-  isLoggedIn: false,
+  isLoggedIn: () => !!get().userId,
   setIsLoggedIn: isLoggedIn => set({ isLoggedIn }),
   friends: [],
   setFriends: friends => set({ friends }),
