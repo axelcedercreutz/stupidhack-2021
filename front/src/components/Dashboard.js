@@ -11,7 +11,7 @@ import useStore from '../store';
 const Dashboard = () => {
   const { userInfo } = useStore(state => state);
   console.log(userInfo);
-  return userInfo.flavours ? (
+  return Array.isArray(userInfo.flavours) ? (
     <div>
       <h3>Your Noccoflavours</h3>
       {userInfo.flavours.map(noccoFlavor => {
