@@ -5,8 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import PhotoGallery from './components/PhotoGallery';
 import Header from './components/Header';
-import NewPhoto from './components/NewPhoto';
-import Mine from './components/Mine';
+import MinePage from './pages/MinePage';
 import FriendPage from './pages/FriendPage';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
@@ -30,16 +29,12 @@ const App = () => {
 
         {isLoggedIn() ? (
           <Switch>
+            <Route path="/mine">
+              <MinePage />
+            </Route>
+
             <Route path="/friends/:id">
               <FriendPage />
-            </Route>
-
-            <Route path="/mine/photo">
-              <NewPhoto />
-            </Route>
-
-            <Route path="/mine">
-              <Mine />
             </Route>
 
             <Route path="/">

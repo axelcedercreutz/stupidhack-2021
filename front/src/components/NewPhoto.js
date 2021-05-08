@@ -1,52 +1,73 @@
 import React, { useState } from 'react';
-import { Typography, Button, TextField } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import ImageUploading from 'react-images-uploading';
+import { toast } from 'react-toastify';
+
+import styled from 'styled-components';
 import noccocoinsService from '../services/noccocoins';
+import useStore from '../store';
 
 const NewPhoto = () => {
-  const [takeNewPicture, setTakeNewPicture] = useState(false);
+  const { userId } = useStore(state => state);
 
   const onChange = imageList => {
-    // data for submit
-    let loggedUserJSON = window.localStorage.getItem('nocccoinUser');
-    const user = JSON.parse(loggedUserJSON);
-    const userId = user._id;
-    console.log(imageList);
-    const imageData = imageList[0].dataURL?.split(',')[1];
-    noccocoinsService.mineCoin(userId, imageData);
+    if (userId) {
+      const imageData = imageList[0].dataURL?.split(',')[1];
+      noccocoinsService.mineCoin(userId, imageData);
+    } else {
+      toast.error("Couldn't add image");
+    }
   };
 
-  return takeNewPicture ? (
-    <ImageUploading onChange={onChange}>
-      {({ imageList, onImageUpload, isDragging, dragProps }) => (
-        // write your building UI
-        <div style={{ marginTop: '16px' }}>
-          {imageList.length === 0 && (
-            <Button
-              variant={'outlined'}
-              style={isDragging ? { color: 'red' } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}
-            >
-              Click or drop image here
-            </Button>
-          )}
-        </div>
-      )}
-    </ImageUploading>
-  ) : (
-    <>
-      <Typography>In order to mine a new Nocccoin, you need to:</Typography>
-      <Typography>1. Open your Nocco</Typography>
-      <Typography>
-        2. Open the latest Noccchain picture on another other screen from here
+  return (
+    <div>
+      <Typography variant="h5" component="h3" align="center" padding="20">
+        Submit new block
       </Typography>
-      <Typography>
-        3. Take a photo with your open Nocco and the latest Nocchain.
-      </Typography>
-      <Button onClick={() => setTakeNewPicture(true)}>Take the picture</Button>
-    </>
+
+      <List>
+        <Typography>In order to mine a new Nocccoin, you need to:</Typography>
+
+        <ListItem>1. Open your Nocco</ListItem>
+        <ListItem>
+          2. Open the latest Noccchain picture on another other screen from here
+        </ListItem>
+        <ListItem>
+          3. Take a photo with your open Nocco and the latest Nocchain.
+        </ListItem>
+      </List>
+
+      <ImageUploading onChange={onChange}>
+        {({ imageList, onImageUpload, isDragging, dragProps }) => (
+          // write your building UI
+          <div style={{ marginTop: '16px' }}>
+            {imageList.length === 0 && (
+              <Button
+                variant={'outlined'}
+                style={
+                  isDragging
+                    ? { backgroundColor: 'lightgreen', color: 'green' }
+                    : undefined
+                }
+                onClick={onImageUpload}
+                {...dragProps}
+              >
+                Click or Drop image here
+              </Button>
+            )}
+          </div>
+        )}
+      </ImageUploading>
+    </div>
   );
 };
+
+const List = styled.div`
+  padding: 2rem 0;
+`;
+
+const ListItem = styled(Typography)`
+  padding: 0.6rem 0;
+`;
 
 export default NewPhoto;

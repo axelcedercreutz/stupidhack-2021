@@ -1,20 +1,22 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import NewPhoto from '../components/NewPhoto';
 import { Page } from '../styles';
 
-const Mine = () => {
+const MinePage = () => {
   return (
     <Page>
       <Typography variant="h4" component="h2" align="center" padding="20">
         Latest block
       </Typography>
 
-      <Link to="/mine/photo">Submit new block</Link>
+      <Image src="http://noccco.in/api/nocccoins/mine" />
 
-      <Image src="/nocccoins/mine" />
+      <Spacer />
+
+      <NewPhoto />
     </Page>
   );
 };
@@ -25,4 +27,9 @@ const Image = styled.img`
   object-fit: contain;
 `;
 
-export default Mine;
+const Spacer = styled.div`
+  height: 3rem;
+  width: 100%;
+`;
+
+export default MinePage;
