@@ -68,10 +68,6 @@ const Menu = () => {
                 Profile
               </MenuItem>
 
-              <MenuItem variant="body1" onClick={() => navigate('/mine')}>
-                Mine
-              </MenuItem>
-
               <Hr />
 
               <MenuItem variant="body1" onClick={() => handleLogout()}>
