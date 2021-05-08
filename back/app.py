@@ -124,7 +124,6 @@ def get_transfers(from_id: str = '', to_id: str = '', transfer_id: str = ''):
     if to_id:
         query['to_id'] = to_id
     transfers = db.transfers.find(query)
-    print(list(transfers))
     return [{ **u, '_id': str(u['_id']) } for u in list(transfers)]
 
 
