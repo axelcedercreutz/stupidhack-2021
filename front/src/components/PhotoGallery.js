@@ -24,6 +24,7 @@ const PhotoGallery = () => {
         height="300"
         src={`${baseUrl}/noccchain/${count - x}`}
         key={x}
+        style={{ objectFit: 'contain' }}
       />
     ));
   };
