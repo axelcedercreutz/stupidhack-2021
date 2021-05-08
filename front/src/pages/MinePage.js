@@ -12,7 +12,7 @@ const MinePage = () => {
         Latest block
       </Typography>
 
-      <Image src="http://localhost:8000/nocccoins/mine" />
+      <Image src="http://noccco.in/api/nocccoins/mine" />
 
       <Spacer />
 
