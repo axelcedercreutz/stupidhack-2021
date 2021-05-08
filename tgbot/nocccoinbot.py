@@ -45,33 +45,43 @@ def mine(message):
         except:
         print("vituixmän")
 
+
+
 @bot.message_handler(commands=['login'])
     def send_welcome(message):
         msg = bot.reply_to(message, """\
-    Hi there, I am Example bot.
+    Hi there, I am Nocccoin_bot.
     Start login by inputting your username
     """)
-        bot.register_next_step_handler(msg, process_name_step)
-
+        bot.register_next_step_handler(msg, process_username_step)
 
     def process_username_step(message):
         try:
             chat_id = message.chat.id
             user.username = message.text
             msg = bot.reply_to(message, 'And now send your password')
-            bot.register_next_step_handler(msg, process_age_step)
+            bot.register_next_step_handler(msg, process_password_step)
         except Exception as e:
             bot.reply_to(message, 'oooops something went wrong')
-
-    data = {"password":user.password, "username":user.username}
-    response = requests.post(baseURL + '/users/login/', )
-
+            
     def process_password_step(message):
         try:
             chat_id = message.chat.id
             user.password = message.text
         except Exception as e:
             bot.reply_to(message, 'oooops')
+
+    data = {"password":user.password, "username":user.username}
+    response = requests.post(baseURL + '/users/login/', headers={"content-type": "application/json"}, data=data)
+    responseData = response.json()
+    if (responseData.status_code != '200'):
+        bot.reply_to(message, "Something went wrong. Check that you gave valid credential"
+    else: 
+        if "_id" in responseData.keys():
+            userId = responseData[_id]
+        
+
+
 
 
 
