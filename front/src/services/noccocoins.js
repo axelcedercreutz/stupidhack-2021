@@ -43,7 +43,7 @@ const getTransfers = async (fromId, toId, transferId) => {
   return response.data;
 };
 
-const getMineChallenge = async () => {
+const getMineNocco = async () => {
   const response = await axios.get(baseUrl + '/mine');
   return response.data;
 };
@@ -73,7 +73,7 @@ export default {
   addCoins,
   transferCoins,
   getTransfers,
-  getMineChallenge,
+  getMineNocco,
   mineCoin,
   getNocccainLength,
   getNocccainById,

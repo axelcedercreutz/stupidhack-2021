@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import noccocoinsService from '../services/noccocoins';
 
 const Mine = () => {
   const classes = useStyles();
+  const [image, setImage] = useState();
+
+  useEffect(() => getMineableNocco(), [image]);
+
+  const getMineableNocco = async () => {
+    const latestNoccchain = await noccocoinsService.getMineNocco();
+    setImage(latestNoccchain);
+  };
 
   return (
     <>
@@ -11,7 +20,7 @@ const Mine = () => {
       <div className={classes.root}>
         <Card>
           <CardContent>
-            <Typography>Newest photo</Typography>
+            <img src={image} />
           </CardContent>
         </Card>
       </div>
