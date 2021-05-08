@@ -3,56 +3,62 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Switch, Route } from 'react-router-dom';
 
-import noccocoinsService from './services/noccocoins';
 import PhotoGallery from './components/PhotoGallery';
 import Header from './components/Header';
 import NewPhoto from './components/NewPhoto';
 import Mine from './components/Mine';
-import Friend from './components/Friend';
+import FriendPage from './pages/FriendPage';
+import UserPage from './pages/UserPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import { useInit } from './components/useInit';
+import useStore from './store';
 
 const App = () => {
   useInit();
 
-  const handleTransfer = async () => {
-    const response = await noccocoinsService.transferCoins(
-      password,
-      userId,
-      '6095b3f1e0eccae5569a3c94',
-      2,
-    );
-    console.log(response);
-    const newUserInfo = {
-      ...userInfo,
-      nocccoins: response.nocccoins,
-    };
-    setUserInfo(newUserInfo);
-  };
+  const { isLoggedIn } = useStore(state => state);
 
   return (
     <div>
       <h1>Nocccoin</h1>
       <Header />
       <Switch>
-        <Route path="/friends/:id">
-          {
-            <Friend
-              friend={friend}
-              userId={userId}
-              handleTransfer={() => handleTransfer()}
-            />
-          }
-        </Route>
+        <Route path="/"></Route>
+
         <Route path="/photo-gallery">
           <PhotoGallery />
         </Route>
-        <Route path="/mine/photo">
-          <NewPhoto />
+
+        <Route path="/login">
+          <LoginPage />
         </Route>
-        <Route path="/mine">
-          <Mine />
-        </Route>
-        <Route path="/"></Route>
+
+        {isLoggedIn ? (
+          <>
+            <Route path="/friends/:id">
+              <FriendPage />
+            </Route>
+
+            <Route path="/mine/photo">
+              <NewPhoto />
+            </Route>
+
+            <Route path="/mine">
+              <Mine />
+            </Route>
+
+            <Route path="/profile">
+              <UserPage />
+            </Route>
+          </>
+        ) : (
+          <>
+            <Route path="/register">
+              <RegisterPage />
+            </Route>
+          </>
+        )}
       </Switch>
 
       <ToastContainer />

@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { toast } from 'react-toastify';
 
-import { useStore } from '../store';
+import useStore from '../store';
 import { Page } from '../styles';
 import userService from '../services/user';
 import loginService from '../services/login';
 import { useStyles } from '../styles/theme';
 
-const LoginPage = ({ loggedIn }) => {
+const LoginPage = () => {
   const { setUserId } = useStore(state => state);
   const classes = useStyles();
 
