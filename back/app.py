@@ -16,6 +16,7 @@ import cv2
 import numpy as np
 
 from validate_image import validate_image
+import nocoaly
 
 client = pymongo.MongoClient("localhost", 27017)
 db = client.nocccoin
@@ -150,12 +151,18 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
     except:
         raise HTTPException(status_code=400, detail="Invalid image")
 
+    # TODO: return censored image
+
     if not validate_image(image_file):
         raise HTTPException(status_code=400, detail="Invalid chain")
+    
+    # TODO: Use censored image to find noccos 
 
-    flavours = ['mango'] # TODO: replace with Leila's code
+    flavours = nocoaly.find_noccos(im_arr) 
+
     if len(flavours) == 0:
-        raise HTTPException(status_code=404, detail="Nocco not found")
+        raise HTTPException(status_code=400, detail="Nocco not found")
+
     user = db.users.find_one({ '_id': ObjectId(user_id) })
     _set_nocccoins(user_id, user['nocccoins'] + len(flavours))
     _set_flavours(user_id, user['flavours'] + flavours)
