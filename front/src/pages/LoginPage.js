@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Typography, Box } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 import useStore from '../store';
 import { Page } from '../styles';
-import userService from '../services/user';
 import loginService from '../services/login';
 import { useStyles } from '../styles/theme';
 
@@ -23,7 +22,6 @@ const LoginPage = () => {
         password,
       });
       window.localStorage.setItem('nocccoinUser', JSON.stringify(user));
-      userService.setToken(user._id);
       setUserId(user._id);
     } catch (exception) {
       toast.error('Failed to log in');
@@ -32,7 +30,9 @@ const LoginPage = () => {
 
   return (
     <Page>
-      <h2>Log in</h2>
+      <Typography variant="h4" component="h2" align="center" padding="20">
+        Log in
+      </Typography>
 
       <TextField
         variant="outlined"
@@ -53,6 +53,7 @@ const LoginPage = () => {
         label={'Password'}
         name={'password'}
         value={password}
+        type="password"
         onChange={({ target }) => setPassword(target.value)}
       />
 
@@ -66,7 +67,11 @@ const LoginPage = () => {
         Log in
       </Button>
 
-      <Link to="/register">Register</Link>
+      <Box p={3}>
+        <Typography variant="body2" align="center">
+          <Link to="/register">Register</Link>
+        </Typography>
+      </Box>
     </Page>
   );
 };
