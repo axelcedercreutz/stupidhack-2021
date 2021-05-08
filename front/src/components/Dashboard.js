@@ -5,11 +5,13 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Typography,
 } from '@material-ui/core';
 
-const Dashboard = props => {
+const Dashboard = () => {
+  const { userInfo } = useStore(state => state);
   return (
-    <>
+    userInfo.flavors && (
       <Table>
         <TableHead>
           <TableRow>
@@ -18,7 +20,7 @@ const Dashboard = props => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.noccoFlavors.map(noccoFlavor => {
+          {userInfo.flavors.map(noccoFlavor => {
             return (
               <TableRow>
                 <TableCell>{noccoFlavor.flavor}</TableCell>
@@ -28,7 +30,7 @@ const Dashboard = props => {
           })}
         </TableBody>
       </Table>
-    </>
+    )
   );
 };
 
