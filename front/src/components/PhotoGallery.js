@@ -18,7 +18,7 @@ const PhotoGallery = () => {
   }, [latestChainId]);
 
   const renderImages = count => {
-    return Array.from(Array(count).keys()).map(x => (
+    return Array.from(Array(count).concat(count).keys()).map(x => (
       <img
         width="300"
         height="300"
@@ -31,7 +31,7 @@ const PhotoGallery = () => {
   return (
     <Page>
       <Typography variant="h4" component="h2">
-        All dem Nocccoins {latestChainId}
+        All dem {latestChainId} Nocccoins
       </Typography>
 
       {renderImages(latestChainId)}

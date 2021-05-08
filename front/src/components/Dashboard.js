@@ -10,25 +10,15 @@ import useStore from '../store';
 
 const Dashboard = () => {
   const { userInfo } = useStore(state => state);
-  return userInfo.flavors ? (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Flavor</TableCell>
-          <TableCell>Amount</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {userInfo.flavors.map(noccoFlavor => {
-          return (
-            <TableRow>
-              <TableCell>{noccoFlavor.flavor}</TableCell>
-              <TableCell>{noccoFlavor.amount}</TableCell>
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
+  console.log(userInfo);
+  return userInfo.flavours ? (
+    <div>
+      <h3>Your Noccoflavours</h3>
+      {userInfo.flavours.map(noccoFlavor => {
+        return <div>{noccoFlavor}</div>;
+      })}
+      <br />
+    </div>
   ) : null;
 };
 
