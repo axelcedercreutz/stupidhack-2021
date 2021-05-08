@@ -22,7 +22,7 @@ const PhotoGallery = () => {
       <img
         width="300"
         height="300"
-        src={`${baseUrl}/noccchain/${x + 1}`}
+        src={`${baseUrl}/noccchain/${count - x}`}
         key={x}
       />
     ));
