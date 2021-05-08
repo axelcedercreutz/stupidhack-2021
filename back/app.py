@@ -130,7 +130,7 @@ def get_transfers(from_id: str = '', to_id: str = '', transfer_id: str = ''):
 @app.post("/nocccoins/transfers")
 def transfer_nocccoins(from_id: str = Body(...), password: str = Body(...), to_id: str = Body(...), amount: int = Body(...), message: str = Body('')):
     from_u = db.users.find_one({ '_id': ObjectId(from_id) })
-    if from_u['hashed_password'] != hash(password, u['salt']):
+    if from_u['hashed_password'] != hash(password, from_u['salt']):
         raise HTTPException(status_code=401, detail="No permission")
     if from_u['nocccoins'] < amount:
         raise HTTPException(status_code=403, detail="Not enough nocccoins")
