@@ -20,10 +20,9 @@ const PhotoGallery = () => {
   const renderImages = count => {
     return Array.from(Array(count).concat(count).keys()).map(x => (
       <img
-        width="300"
-        height="300"
         src={`${baseUrl}/noccchain/${count - x}`}
         key={x}
+        style={{ objectFit: 'contain', maxHeight: 400, marginTop: 10 }}
       />
     ));
   };
