@@ -21,7 +21,6 @@ const App = () => {
 
   return (
     <div>
-      <h1>Nocccoin</h1>
       <Header />
 
       <Switch>
