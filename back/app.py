@@ -15,6 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import cv2 
 import numpy as np
 
+from draw_reference import draw_borders
 from validate_image import validate_image
 import nocoaly
 
@@ -161,6 +162,7 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
     # TODO: Use censored image to find noccos 
 
     flavours = nocoaly.find_noccos(im_bytes) 
+    print(flavours)
 
     if len(flavours) == 0:
         raise HTTPException(status_code=400, detail="Nocco not found")
@@ -170,6 +172,9 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
     _set_flavours(user_id, user['flavours'] + flavours)
     noccchain_id = db.noccchain.count() + 1
     mined = db.noccchain.insert_one({ 'noccchain_id': noccchain_id, 'user_id': user_id })
+
+    bordered_image = draw_borders(image_file)
+    cv2.imwrite('reference.png', bordered_image)
     with open(f"noccchain/{noccchain_id}.png", "wb") as fh:
         fh.write(base64.decodebytes(image))
     

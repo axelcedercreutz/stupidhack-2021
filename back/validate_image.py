@@ -5,8 +5,8 @@ import cv2
 
 
 def validate_image(source):
-  original = source.copy()
-  contours = find_countors(source)
+  copy = source.copy()
+  contours = find_countors(copy)
 
   i = 0
   for contour in contours:
@@ -14,8 +14,8 @@ def validate_image(source):
     i += 1
     if check_similarity(contour):
       cv2.imwrite('latest_match.png', contour)
-      bordered_image = draw_borders(original)
-      cv2.imwrite('reference.png', bordered_image)
+      #bordered_image = draw_borders(original)
+      #cv2.imwrite('reference.png', bordered_image)
 
       print("Successfully continued NOCCChain")
       return True
