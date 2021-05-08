@@ -21,7 +21,10 @@ const LoginPage = () => {
         username,
         password,
       });
-      window.localStorage.setItem('nocccoinUser', JSON.stringify(user));
+      window.localStorage.setItem(
+        'nocccoinUser',
+        JSON.stringify({ ...user, password }),
+      );
       setUserId(user._id);
     } catch (exception) {
       toast.error('Failed to log in');

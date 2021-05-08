@@ -20,11 +20,15 @@ const RegisterPage = () => {
   const handleSignUp = async () => {
     try {
       if (password === confirmPassword) {
-        const userId = await loginService.createUser({
+        const user = await loginService.createUser({
           username,
           password,
         });
-        setUserId(userId);
+        window.localStorage.setItem(
+          'nocccoinUser',
+          JSON.stringify({ ...user, password }),
+        );
+        setUserId(user._id);
       } else {
         toast.error("Passwords don't match");
       }
@@ -46,7 +50,7 @@ const RegisterPage = () => {
         id={'username'}
         label={'Username'}
         name={'username'}
-        type="password"
+        type="text"
         value={username}
         onChange={({ target }) => setUsername(target.value)}
       />
@@ -70,6 +74,7 @@ const RegisterPage = () => {
         id={'password'}
         label={'Password'}
         name={'password'}
+        type="password"
         value={confirmPassword}
         onChange={({ target }) => setConfirmPassword(target.value)}
       />
