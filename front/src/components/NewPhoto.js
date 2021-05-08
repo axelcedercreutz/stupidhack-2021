@@ -37,7 +37,7 @@ const NewPhoto = () => {
   return (
     <div>
       <Typography variant="h5" component="h3" align="center" padding="20">
-        Submit new block
+        Submit new Noccc
       </Typography>
 
       <List>
@@ -48,7 +48,7 @@ const NewPhoto = () => {
           2. Open the latest Noccchain picture on another other screen from here
         </ListItem>
         <ListItem>
-          3. Take a photo with your open Nocco and the latest Nocchain.
+          3. Take a photo with your open Nocco and the latest Noccc in the Nocchain.
         </ListItem>
       </List>
 
