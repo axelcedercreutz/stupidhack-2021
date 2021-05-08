@@ -13,3 +13,11 @@ Project for StupidHack 2021
 `poetry install`
 
 `poetry run python app.py`
+
+## frontend
+
+`cd front`
+
+`yarn install`
+
+`yarn start`
