@@ -21,3 +21,14 @@ Project for StupidHack 2021
 `yarn install`
 
 `yarn start`
+
+
+## mongodb
+
+1) setup mongo on your computer
+
+2) run `mongod`
+
+if that doesn't work, create in your root a folder "db" within "data"
+
+3) run `mongod --dbpath ~/data/db`
