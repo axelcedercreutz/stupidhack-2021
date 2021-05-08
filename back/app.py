@@ -77,7 +77,7 @@ def post_user(username: str = Body(...), password: str = Body(...)):
     uu = db.users.insert_one(user.dict())
     u = db.users.find_one({ 'username': user.username })
     #return str(u.inserted_id)
-    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': str(u['flavours']), '_id': str(u['_id'])}
+    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': u['flavours'], '_id': str(u['_id'])}
 
 
 @app.get("/users")
@@ -91,7 +91,7 @@ def find_user(username: str = ''):
     u = db.users.find_one({ 'username': username })
     # TODO: only return public data
     #return {**u, '_id': str(u['_id'])}
-    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': str(u['flavours']), '_id': str(u['_id'])}
+    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': u['flavours'], '_id': str(u['_id'])}
 
 
 @app.post("/users/login")
@@ -102,7 +102,7 @@ def login_user(username: str = Body(...), password: str = Body(...)):
     if u['hashed_password'] != hash(password, u['salt']):
         raise HTTPException(status_code=401, detail="No permission")
     #return {**u, '_id': str(u['_id'])}
-    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': str(u['flavours']), '_id': str(u['_id'])}
+    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': u['flavours'], '_id': str(u['_id'])}
 
 
 @app.get("/users/{user_id}")
@@ -110,7 +110,7 @@ def get_user(user_id: str):
     u = db.users.find_one({ '_id': ObjectId(user_id) })
     # TODO: only return public data
     #return {**u, '_id': str(u['_id'])}
-    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': str(u['flavours']), '_id': str(u['_id'])}
+    return {'username': str(u['username']), 'nocccoins': str(u['nocccoins']), 'flavours': u['flavours'], '_id': str(u['_id'])}
 
 
 @app.get("/nocccoins/transfers")
@@ -180,8 +180,6 @@ def mine_nocccoins(user_id: str = Body(...), image: bytes = Body(...)):
         raise HTTPException(status_code=400, detail="Invalid chain")
     
     # TODO: Use censored image to find noccos 
-
-    print("Requesting noccoflavourdetection from nocoäly-AI @ Azure!")
 
     flavours = nocoaly.find_noccos(im_bytes) 
 
