@@ -9,7 +9,7 @@ import { Page } from '../styles';
 import { useStyles } from '../styles/theme';
 
 const RegisterPage = () => {
-  const { setUserId, setIsLoggedIn } = useStore(state => state);
+  const { setUserId } = useStore(state => state);
   const classes = useStyles();
 
   const [username, setUsername] = useState('');

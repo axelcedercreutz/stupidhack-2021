@@ -6,7 +6,6 @@ const useStore = create((set, get) => ({
   userInfo: null,
   setUserInfo: userInfo => set({ userInfo }),
   isLoggedIn: () => !!get().userId,
-  setIsLoggedIn: isLoggedIn => set({ isLoggedIn }),
   friends: [],
   setFriends: friends => set({ friends }),
 }));

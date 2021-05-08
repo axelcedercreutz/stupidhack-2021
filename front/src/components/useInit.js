@@ -3,13 +3,9 @@ import useStore from '../store';
 import userService from '../services/user';
 
 export const useInit = () => {
-  const {
-    setUserInfo,
-    userId,
-    setUserId,
-    setIsLoggedIn,
-    setFriends,
-  } = useStore(state => state);
+  const { setUserInfo, userId, setUserId, setFriends } = useStore(
+    state => state,
+  );
 
   useEffect(() => {
     let loggedUserJSON = window.localStorage.getItem('noccoinUser');
@@ -17,7 +13,7 @@ export const useInit = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUserId(user.userId);
-      setIsLoggedIn(true);
+      setUserInfo(user);
     }
   }, []);
 
@@ -26,9 +22,9 @@ export const useInit = () => {
   const initUserData = async () => {
     if (userId) {
       const newUserInfo = await userService.getBasicInfo();
-      setUserInfo(newUserInfo);
       window.localStorage.setItem('nocccoinUser', JSON.stringify(newUserInfo));
       const allUsers = await userService.getAllUsers();
+      setUserInfo(newUserInfo);
       setFriends(allUsers);
     }
   };
