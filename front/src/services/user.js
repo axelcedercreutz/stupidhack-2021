@@ -6,8 +6,6 @@ const userBaseUrl = baseUrl + '/users';
 
 let userId = null;
 
-const baseUrl = 'http://localhost:8000/users';
-
 const getAllUsers = async () => {
   const response = await axios.get(userBaseUrl);
   return response.data;

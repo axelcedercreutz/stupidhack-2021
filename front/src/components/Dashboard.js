@@ -5,7 +5,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Typography,
 } from '@material-ui/core';
 import useStore from '../store';
 
