@@ -1,41 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, makeStyles } from '@material-ui/core';
-import nocccoinsService from '../services/noccocoins';
+import React, { useEffect } from 'react';
+import { Typography, makeStyles } from '@material-ui/core';
+import noccocoins from '../services/noccocoins';
 import { Page } from '../styles';
+import useStore from '../store';
+import { baseUrl } from '../utils/config';
 
 const PhotoGallery = () => {
-  const [images, setImages] = useState([]);
+  const { latestChainId, setLatestChainId } = useStore(state => state);
+
+  const updateChainLength = async () => {
+    const chainLength = await noccocoins.getNocccainLength();
+    setLatestChainId(chainLength);
+  };
 
   useEffect(() => {
-    getAllImages();
-  }, []);
+    updateChainLength();
+  }, [latestChainId]);
 
-  const getAllImages = async () => {
-    const getLengthOfNoccchain = await nocccoinsService.getNocccainLength();
-    const promises = [];
-    for (var i = 0; i < getLengthOfNoccchain; i++) {
-      const newImage = nocccoinsService.getNocccainById(i);
-      promises.push(newImage);
-    }
-    const newImages = await promises;
-    setImages(newImages);
+  const renderImages = count => {
+    return Array.from(Array(count).keys()).map(x => (
+      <img
+        width="300"
+        height="300"
+        src={`${baseUrl}/noccchain/${x + 1}`}
+        key={x}
+      />
+    ));
   };
 
   return (
     <Page>
       <Typography variant="h4" component="h2">
-        All dem Nocccoins
+        All dem Nocccoins {latestChainId}
       </Typography>
 
-      {images.map(image => {
-        return (
-          <Card>
-            <CardContent>
-              <img src={image} />
-            </CardContent>
-          </Card>
-        );
-      })}
+      {renderImages(latestChainId)}
     </Page>
   );
 };
