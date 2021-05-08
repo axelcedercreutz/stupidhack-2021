@@ -43,9 +43,10 @@ const Friend = props => {
     <Page>
       <Typography>{friend.username}</Typography>
       <div>
-        {messages.map(message => (
-          <Typography>
-            From: {message.from_id} To: {message.to_id} Message:{' '}
+        {messages.map((message, index) => (
+          <Typography key={message.from_id + index}>
+            From: {message.from_id === userId ? 'You' : friend.username} To:
+            {message.to_id === userId ? 'You' : friend.username} Message:{' '}
             {message.message}
           </Typography>
         ))}
