@@ -1,10 +1,21 @@
-.error {
-  border: 1px solid red;
-  color: red;
-  background-color: gray;
+html,
+body {
+  width: 100vw;
+  min-height: 100vh;
 }
-.success {
-  border: 1px solid green;
-  color: green;
-  background-color: gray;
+
+body {
+  padding: 0;
+  border: 0;
+  margin: 0 !important;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+button {
+  border: none;
 }

@@ -5,10 +5,8 @@ import noccocoinsService from '../services/noccocoins';
 
 const NewPhoto = () => {
   const [takeNewPicture, setTakeNewPicture] = useState(false);
-  const [message, setMessage] = useState();
-  const [images, setImages] = React.useState([]);
 
-  const onChange = (imageList, addUpdateIndex) => {
+  const onChange = imageList => {
     // data for submit
     let loggedUserJSON = window.localStorage.getItem('nocccoinUser');
     const user = JSON.parse(loggedUserJSON);
@@ -19,51 +17,34 @@ const NewPhoto = () => {
   };
 
   return takeNewPicture ? (
-    <ImageUploading multiple value={images} onChange={onChange}>
-      {({
-        imageList,
-        onImageUpload,
-        onImageUpdate,
-        onImageRemove,
-        isDragging,
-        dragProps,
-      }) => (
+    <ImageUploading onChange={onChange}>
+      {({ imageList, onImageUpload, isDragging, dragProps }) => (
         // write your building UI
-        <div>
-          {imageList.map((image, index) => (
-            <div key={index} className="image-item">
-              <img src={image.dataURL} alt="" width="100" />
-              <div>
-                <Button onClick={() => onImageUpdate(index)}>Päivitä</Button>
-                <Button
-                  onClick={() => onImageRemove(index)}
-                  variant="outlined"
-                  style={{ marginLeft: '16px' }}
-                >
-                  Poista
-                </Button>
-              </div>
-            </div>
-          ))}
-          <div style={{ marginTop: '16px' }}>
-            {imageList.length === 0 && (
-              <Button
-                variant={'outlined'}
-                style={isDragging ? { color: 'red' } : undefined}
-                onClick={onImageUpload}
-                {...dragProps}
-              >
-                Klikkaa tai pudota tähän liite
-              </Button>
-            )}
-          </div>
+        <div style={{ marginTop: '16px' }}>
+          {imageList.length === 0 && (
+            <Button
+              variant={'outlined'}
+              style={isDragging ? { color: 'red' } : undefined}
+              onClick={onImageUpload}
+              {...dragProps}
+            >
+              Click or drop image here
+            </Button>
+          )}
         </div>
       )}
     </ImageUploading>
   ) : (
     <>
-      <Typography>Tähän tulee selitykset</Typography>
-      <Button onClick={() => setTakeNewPicture(true)}>Ota uusi kuva</Button>
+      <Typography>In order to mine a new Nocccoin, you need to:</Typography>
+      <Typography>1. Open your Nocco</Typography>
+      <Typography>
+        2. Open the latest Noccchain picture on another other screen from here
+      </Typography>
+      <Typography>
+        3. Take a photo with your open Nocco and the latest Nocchain.
+      </Typography>
+      <Button onClick={() => setTakeNewPicture(true)}>Take the picture</Button>
     </>
   );
 };
