@@ -29,6 +29,10 @@ const App = () => {
 
         {isLoggedIn() ? (
           <Switch>
+            <Route path="/mine">
+              <MinePage />
+            </Route>
+
             <Route path="/friends/:id">
               <FriendPage />
             </Route>
