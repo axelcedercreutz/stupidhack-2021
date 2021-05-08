@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
+import { baseUrl } from '../utils/config';
 
 import NewPhoto from '../components/NewPhoto';
 import { Page } from '../styles';
+import useStore from '../store';
 
 const MinePage = () => {
+  const { latestChainId } = useStore(state => state);
+  useEffect(() => {}, [latestChainId]);
+
   return (
     <Page>
       <Typography variant="h4" component="h2" align="center" padding="20">
         Latest Noccc
       </Typography>
 
-      <Image src="https://noccco.in/api/nocccoins/mine" />
+      <Image
+        key={latestChainId}
+        src={`${baseUrl}/nocccoins/mine?v=${latestChainId}`}
+      />
 
       <Spacer />
 
