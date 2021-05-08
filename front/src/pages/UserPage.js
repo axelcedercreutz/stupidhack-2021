@@ -46,26 +46,29 @@ const UserPage = () => {
           </Card>
           {messages?.length > 0 && friends?.length > 0 && (
             <Card>
-              <Typography>Your latest messages:</Typography>
-              {messages.reverse().map((message, index) => {
-                const messageFrom =
-                  message.from_id === userId
-                    ? 'You'
-                    : friends.filter(
-                        friend => friend._id === message.from_id,
-                      )[0].username;
-                const messageTo =
-                  message.to_id === userId
-                    ? 'You'
-                    : friends.filter(friend => friend._id === message.to_id)[0]
-                        .username;
-                return (
-                  <Typography key={message.from_id + index}>
-                    From:{messageFrom} To:
-                    {messageTo} Message: {message.message}
-                  </Typography>
-                );
-              })}
+              <CardContent>
+                <Typography variant="h5">Your latest messages</Typography>
+                {messages.reverse().map((message, index) => {
+                  const messageFrom =
+                    message.from_id === userId
+                      ? 'You'
+                      : friends.filter(
+                          friend => friend._id === message.from_id,
+                        )[0].username;
+                  const messageTo =
+                    message.to_id === userId
+                      ? 'You'
+                      : friends.filter(
+                          friend => friend._id === message.to_id,
+                        )[0].username;
+                  return (
+                    <Typography key={message.from_id + index}>
+                      From:{messageFrom} To:
+                      {messageTo} Message: {message.message}
+                    </Typography>
+                  );
+                })}
+              </CardContent>
             </Card>
           )}
         </div>
