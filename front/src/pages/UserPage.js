@@ -54,18 +54,34 @@ const UserPage = () => {
                       ? 'You'
                       : friends.filter(
                           friend => friend._id === message.from_id,
-                        )[0].username;
-                  const messageTo =
-                    message.to_id === userId
-                      ? 'You'
-                      : friends.filter(
-                          friend => friend._id === message.to_id,
-                        )[0].username;
+                        )[0]?.username;
                   return (
-                    <Typography key={message.from_id + index}>
-                      From:{messageFrom} To:
-                      {messageTo} Message: {message.message}
-                    </Typography>
+                    <div
+                      style={{
+                        margin: 8,
+                        padding: 16,
+                        border: '1px solid black',
+                        backgroundColor:
+                          message.from_id === userId
+                            ? 'peachpuff'
+                            : 'lightblue',
+                        textAlign:
+                          message.from_id === userId ? 'right' : 'left',
+                      }}
+                    >
+                      <Typography
+                        key={message.from_id + index}
+                        variant={'body1'}
+                      >
+                        {message.message}
+                      </Typography>
+                      <Typography
+                        key={message.from_id + index}
+                        variant={'body2'}
+                      >
+                        {messageFrom}
+                      </Typography>
+                    </div>
                   );
                 })}
               </CardContent>

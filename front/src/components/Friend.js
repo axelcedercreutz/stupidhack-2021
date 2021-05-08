@@ -3,6 +3,7 @@ import nocccoinsService from '../services/noccocoins';
 import { Typography, TextField, Button } from '@material-ui/core';
 import { Page } from '../styles';
 import useStore from '../store';
+import { toast } from 'react-toastify';
 
 const Friend = props => {
   const { friend } = props;
@@ -24,32 +25,53 @@ const Friend = props => {
   };
 
   const handleTransfer = async () => {
-    const response = await nocccoinsService.transferCoins(
-      password,
-      userId,
-      friend._id,
-      amount,
-      message,
-    );
-    const newUserInfo = {
-      ...userInfo,
-      nocccoins: response.nocccoins,
-    };
-    setUserInfo(newUserInfo);
-    getAllMessages();
+    try {
+      const response = await nocccoinsService.transferCoins(
+        password,
+        userId,
+        friend._id,
+        amount,
+        message,
+      );
+      const newUserInfo = {
+        ...userInfo,
+        nocccoins: userInfo.nocccoins - amount,
+      };
+      setUserInfo(newUserInfo);
+      setMessage('');
+      setPassword('');
+      setAmount(1);
+      getAllMessages();
+    } catch (e) {
+      toast.error("Couldn't send money");
+    }
   };
 
   return friend ? (
     <Page>
       <Typography>{friend.username}</Typography>
       <div>
-        {messages.map((message, index) => (
-          <Typography key={message.from_id + index}>
-            From: {message.from_id === userId ? 'You' : friend.username} To:
-            {message.to_id === userId ? 'You' : friend.username} Message:{' '}
-            {message.message}
-          </Typography>
-        ))}
+        {messages.map((message, index) => {
+          return (
+            <div
+              style={{
+                margin: 8,
+                padding: 16,
+                border: '1px solid black',
+                backgroundColor:
+                  message.from_id === userId ? 'peachpuff' : 'lightblue',
+                textAlign: message.from_id === userId ? 'right' : 'left',
+              }}
+            >
+              <Typography key={message.from_id + index} variant={'body1'}>
+                {message.message}
+              </Typography>
+              <Typography key={message.from_id + index} variant={'body2'}>
+                {message.from_id === userId ? 'You' : friend.username}
+              </Typography>
+            </div>
+          );
+        })}
       </div>
       <div>
         <TextField
