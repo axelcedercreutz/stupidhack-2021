@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography } from '@material-ui/core';
+import { Card, CardContent, Typography, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 import { Page } from '../styles';
@@ -27,19 +27,23 @@ const UserPage = () => {
           <Dashboard />
         </div>
         <div>
-          <Card raised={true}>
+          <Card raised={true} style={{ margin: '0 0 16px 0' }}>
             <CardContent>
               <Typography>Visit your friends:</Typography>
               {friends.map(friend => {
                 return (
-                  <Link key={friend._id} to={`/friends/${friend._id}`}>
+                  <Button
+                    variant={'outlined'}
+                    style={{ margin: 8 }}
+                    href={`/friends/${friend._id}`}
+                  >
                     {friend.username}
-                  </Link>
+                  </Button>
                 );
               })}
             </CardContent>
           </Card>
-          {messages && (
+          {messages.length > 0 && (
             <Card>
               <Typography>Your latest messages:</Typography>
               {messages.reverse().map(message => (
