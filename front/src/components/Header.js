@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { Typography } from '@material-ui/core';
 
 import MenuButton from '../components/MenuButton';
 import useStore from '../store';
 
 const Menu = () => {
   const { setUserId, setUserInfo, isLoggedIn } = useStore(state => state);
+
+  const history = useHistory();
 
   const [isOpen, toggleIsOpen] = useState(false);
 
@@ -16,9 +19,14 @@ const Menu = () => {
     setUserInfo(undefined);
   };
 
+  const navigate = to => {
+    history.push(to);
+    toggleIsOpen(false);
+  };
+
   return (
     <Navbar isOpen={isOpen}>
-      <Image src={process.env.PUBLIC + 'assets/nocccoin-logo.svg'} />
+      <Image src={process.env.PUBLIC_URL + '/assets/nocccoin-logo.svg'} />
 
       <Spacer />
 
@@ -26,11 +34,17 @@ const Menu = () => {
 
       <MenuList isOpen={isOpen}>
         <MenuListWrapper>
-          <MenuItem to="/">Home</MenuItem>
+          <MenuItem variant="body1" onClick={() => navigate('/')}>
+            Home
+          </MenuItem>
 
-          <MenuItem to="/photo-gallery">Photo Gallery</MenuItem>
+          <MenuItem variant="body1" onClick={() => navigate('/photo-gallery')}>
+            Photo Gallery
+          </MenuItem>
 
-          <MenuItem to="/mine">Start Mining</MenuItem>
+          <MenuItem variant="body1" onClick={() => navigate('/mine')}>
+            Start Mining
+          </MenuItem>
         </MenuListWrapper>
       </MenuList>
     </Navbar>
@@ -41,8 +55,9 @@ const Navbar = styled.nav`
   position: fixed;
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
   width: 100vw;
-  padding: 1rem;
+  padding: 0.8rem 1rem;
   z-index: 10;
   background-color: white;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
@@ -70,7 +85,8 @@ const Spacer = styled.div`
 `;
 
 const Image = styled.img`
-  max-width: 200px;
+  width: 150px;
+  max-width: 30vw;
 `;
 
 const MenuList = styled.div`
@@ -102,9 +118,17 @@ const MenuListWrapper = styled.div`
   max-width: 400px;
 `;
 
-const MenuItem = styled(Link)`
+const MenuItem = styled(Typography)`
+  text-decoration: none;
   margin-bottom: 0.5rem;
   padding: 1rem;
+  cursor: pointer;
+
+  transition: 0.1s opacity;
+
+  :hover {
+    opacity: 0.6;
+  }
 `;
 
 export default Menu;
