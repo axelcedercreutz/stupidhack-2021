@@ -9,11 +9,26 @@ import useStore from '../store';
 
 const NewPhoto = () => {
   const { userId } = useStore(state => state);
+  const { setLatestChainId } = useStore(state => state);
 
-  const onChange = imageList => {
+  const updateChainLength = async () => {
+    const chainLength = await noccocoinsService.getNocccainLength();
+    setLatestChainId(chainLength);
+  };
+
+  const onChange = async imageList => {
+    updateChainLength();
+
     if (userId) {
       const imageData = imageList[0].dataURL?.split(',')[1];
-      noccocoinsService.mineCoin(userId, imageData);
+
+      try {
+        await noccocoinsService.mineCoin(userId, imageData);
+        toast.success('Image added to chain');
+        updateChainLength();
+      } catch (e) {
+        toast.error("Couldn't add image");
+      }
     } else {
       toast.error("Couldn't add image");
     }

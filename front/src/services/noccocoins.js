@@ -50,7 +50,7 @@ const mineCoin = async (userId, image) => {
 };
 
 const getNocccainLength = async () => {
-  const response = await axios.get(nocccoinsBaseUrl + '/length');
+  const response = await axios.get(baseUrl + '/noccchain/length');
   return response.data;
 };
 

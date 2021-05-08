@@ -8,6 +8,8 @@ const useStore = create((set, get) => ({
   isLoggedIn: () => !!get().userId,
   friends: [],
   setFriends: friends => set({ friends }),
+  latestChainId: 0,
+  setLatestChainId: latestChainId => set({ latestChainId }),
 }));
 
 export default useStore;
