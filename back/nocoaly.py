@@ -15,7 +15,7 @@ def find_noccos(image):
     responseData = response.json()
     if 'predictions' in responseData.keys():
         for prediction in responseData["predictions"]:
-            if prediction['probability'] >= 0.5:
+            if prediction['probability'] >= 0.7:
                 tagname = prediction['tagName']
                 if tagname in flavours:
                     foundNoccos.append(tagname)
