@@ -69,7 +69,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.post("/users/")
+@app.post("/users")
 def post_user(username: str = Body(...), password: str = Body(...)):
     user = User()
     user.username = username
@@ -78,7 +78,7 @@ def post_user(username: str = Body(...), password: str = Body(...)):
     return str(u.inserted_id)
 
 
-@app.get("/users/")
+@app.get("/users")
 def get_users():
     users = db.users.find()
     return [{ '_id': str(u['_id']), 'username': u['username'] } for u in list(users)]
