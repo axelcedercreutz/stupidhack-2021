@@ -44,7 +44,7 @@ const UserPage = () => {
               })}
             </CardContent>
           </Card>
-          {messages?.length > 0 && (
+          {messages?.length > 0 && friends?.length > 0 && (
             <Card>
               <Typography>Your latest messages:</Typography>
               {messages.reverse().map((message, index) => {
