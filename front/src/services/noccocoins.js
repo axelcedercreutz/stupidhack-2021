@@ -22,12 +22,13 @@ const addCoins = async (userId, amount) => {
   return response.data;
 };
 
-const transferCoins = async (password, userId, recieverId, amount) => {
+const transferCoins = async (password, userId, recieverId, amount, message) => {
   const data = {
-    password,
     from_id: userId,
+    password,
     to_id: recieverId,
     amount,
+    message,
   };
   const response = await axios.post(nocccoinsBaseUrl + '/transfers', data);
   return response.data;
@@ -70,8 +71,11 @@ const getNocccainById = async nocccainId => {
 export default {
   getAllNocccoins,
   getNocccoin,
-  sendMessage,
   addCoins,
   transferCoins,
+  getTransfers,
+  getMineNocco,
   mineCoin,
+  getNocccainLength,
+  getNocccainById,
 };

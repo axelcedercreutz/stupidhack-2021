@@ -6,9 +6,7 @@ const userBaseUrl = baseUrl + '/users';
 
 let userId = null;
 
-const setToken = newUserId => {
-  userId = newUserId;
-};
+const baseUrl = 'http://localhost:8000/users';
 
 const getAllUsers = async () => {
   const response = await axios.get(userBaseUrl);
@@ -36,5 +34,4 @@ export default {
   getAllUsers,
   getBasicInfo,
   getPrivateInfo,
-  setToken,
 };

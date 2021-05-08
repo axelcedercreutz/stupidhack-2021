@@ -7,6 +7,7 @@ import {
   TableBody,
   Typography,
 } from '@material-ui/core';
+import useStore from '../store';
 
 const Dashboard = () => {
   const { userInfo } = useStore(state => state);

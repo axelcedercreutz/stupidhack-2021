@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import noccocoinsService from '../services/noccocoins';
-import { Typography, Button } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import nocccoinsService from '../services/noccocoins';
+import { Typography, TextField, Button } from '@material-ui/core';
+import { Page } from '../styles';
+import useStore from '../store';
 
 const Friend = props => {
   const { friend } = props;
@@ -37,26 +39,51 @@ const Friend = props => {
   };
 
   return friend ? (
-    takeNewPicture ? (
-      <>
-        <Typography>This will be the image stuff</Typography>
-      </>
-    ) : (
-      <>
-        <Typography>{friend.username}</Typography>
-        <div>
-          <Button
-            variant={'outlined'}
-            onClick={() => noccocoinsService.addCoins(userId, 5)}
-          >
-            Send new message
-          </Button>
-          <Button variant={'outlined'} onClick={handleTransfer}>
-            Send Nocccoins
-          </Button>
-        </div>
-      </>
-    )
+    <Page>
+      <Typography>{friend.username}</Typography>
+      <div>
+        {messages.map(message => (
+          <Typography>
+            From: {message.from_id} To: {message.to_id} Message:{' '}
+            {message.message}
+          </Typography>
+        ))}
+      </div>
+      <div>
+        {/*
+        <Button
+          variant={'outlined'}
+          onClick={() => nocccoinsService.addCoins(userId, 5)}
+        >
+          Send new message
+        </Button>
+        */}
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id={'message'}
+          label={'Message'}
+          name={'message'}
+          value={message}
+          onChange={({ target }) => setMessage(target.value)}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id={'amount'}
+          label={'Amount'}
+          name={'amount'}
+          value={amount}
+          type={'number'}
+          onChange={({ target }) => setAmount(target.value)}
+        />
+        <Button variant={'outlined'} onClick={handleTransfer}>
+          Send Nocccoins
+        </Button>
+      </div>
+    </Page>
   ) : null;
 };
 
