@@ -38,11 +38,16 @@ const Menu = () => {
       <Spacer />
 
       {!!userInfo && (
-        <Coins>
-          <Icon icon={faCoins} />
+        <>
+          <Coins>
+            <Icon icon={faCoins} />
 
-          <Typography variant="body2">{userInfo?.nocccoins || 0}</Typography>
-        </Coins>
+            <Typography variant="body2">{userInfo?.nocccoins || 0}</Typography>
+          </Coins>
+          <Typography variant="body2" style={{ marginRight: 16 }}>
+            {userInfo?.username}
+          </Typography>
+        </>
       )}
 
       <MenuButton show={isOpen} toggleShow={toggleIsOpen} />

@@ -35,6 +35,7 @@ const UserPage = () => {
                     variant={'outlined'}
                     style={{ margin: 8 }}
                     href={`/friends/${friend._id}`}
+                    key={friend.username}
                   >
                     {friend.username}
                   </Button>
@@ -45,13 +46,24 @@ const UserPage = () => {
           {messages?.length > 0 && (
             <Card>
               <Typography>Your latest messages:</Typography>
-              {messages.reverse().map(message => (
-                <Typography>
-                  From: {message.from_id === userId ? 'You' : message.from_id}{' '}
-                  To: {message.to_id === userId ? 'You' : message.to_id}{' '}
-                  Message: {message.message}
-                </Typography>
-              ))}
+              {messages.reverse().map((message, index) => {
+                const messageFrom =
+                  message.from_id === userId
+                    ? 'You'
+                    : friends.filter(
+                        friend => friend._id === message.from_id,
+                      )[0];
+                const messageTo =
+                  message.to_id === userId
+                    ? 'You'
+                    : friends.filter(friend => friend._id === message.to_id)[0];
+                return (
+                  <Typography key={message.from_id + index}>
+                    From:{messageFrom} To:
+                    {messageTo} Message: {message.message}
+                  </Typography>
+                );
+              })}
             </Card>
           )}
         </div>

@@ -25,7 +25,7 @@ export const useInit = () => {
       window.localStorage.setItem('nocccoinUser', JSON.stringify(newUserInfo));
       const allUsers = await userService.getAllUsers();
       setUserInfo(newUserInfo);
-      setFriends(allUsers);
+      setFriends(allUsers.filter(user => user._id !== userId));
     }
   };
 };
